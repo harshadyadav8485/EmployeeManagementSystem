@@ -2,10 +2,7 @@ package com.timesheet.syborgtech.globalexception.handler;
 
 import com.timesheet.syborgtech.Constants.StatusConstants;
 import com.timesheet.syborgtech.dtoCommon.SyborgtechResponse;
-import com.timesheet.syborgtech.exceptions.EmailAlreadyExists;
-import com.timesheet.syborgtech.exceptions.InvalidOTPError;
-import com.timesheet.syborgtech.exceptions.RoleAlreadyExists;
-import com.timesheet.syborgtech.exceptions.RoleNotFoundException;
+import com.timesheet.syborgtech.exceptions.*;
 import com.timesheet.syborgtech.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
@@ -51,5 +48,13 @@ public class GlobalExceptionHandler {
         logger.error(e.getMessage());
         return new ResponseEntity<>(
                 SyborgtechResponse.builder().status(StatusConstants.ROLE_NOT_FOUND).build(), HttpStatus.NOT_FOUND);
+    }
+
+    @ResponseStatus(HttpStatus.CONFLICT)
+    @ExceptionHandler(UserNameAlreadyExists.class)
+    public ResponseEntity<SyborgtechResponse> userNameAlreadyExists(UserNameAlreadyExists e) {
+        logger.error(e.getMessage());
+        return new ResponseEntity<>(
+                SyborgtechResponse.builder().status(StatusConstants.USER_NAME_ALREADY_EXISTS).build(), HttpStatus.CONFLICT);
     }
 }

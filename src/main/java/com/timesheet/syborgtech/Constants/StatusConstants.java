@@ -27,4 +27,10 @@ public class StatusConstants {
             .statusCode("ROLE-001")
             .status("ROLE NOT FOUND")
             .build();
+
+    public static final ApiStatus USER_NAME_ALREADY_EXISTS = ApiStatus.builder()
+            .statusMessage("USER_NAME_ALREADY_EXISTS!")
+            .statusCode("USER-001")
+            .status("USER_NAME_ALREADY_EXISTS")
+            .build();
 }

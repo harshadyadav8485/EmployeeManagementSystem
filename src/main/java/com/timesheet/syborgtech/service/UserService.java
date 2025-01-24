@@ -4,6 +4,7 @@ package com.timesheet.syborgtech.service;
 import com.timesheet.syborgtech.dto.request.UserRegistrationRequest;
 import com.timesheet.syborgtech.dto.response.Response;
 import com.timesheet.syborgtech.exceptions.EmailAlreadyExists;
+import com.timesheet.syborgtech.exceptions.UserNameAlreadyExists;
 import com.timesheet.syborgtech.model.User;
 import com.timesheet.syborgtech.repository.RoleRepository;
 import com.timesheet.syborgtech.repository.UserRepository;
@@ -34,7 +35,7 @@ public class UserService {
         }
 
         if (userRepository.findByUserName(userRegistrationRequest.getUserName()).isPresent()) {
-            throw new RuntimeException("Username already exists");
+            throw new UserNameAlreadyExists("Username already exists");
         }
 
         User user = new User();
@@ -51,6 +52,6 @@ public class UserService {
         return Response.builder().message("User Created Successfully").build();
     }
 
-//
+
 }
 
