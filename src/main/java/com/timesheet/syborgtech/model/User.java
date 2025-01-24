@@ -2,9 +2,7 @@ package com.timesheet.syborgtech.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Past;
+import jakarta.validation.constraints.*;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -39,9 +37,12 @@ public class User {
 
     @NotBlank(message = "Email is required")
     @Column(name = "email", nullable = false, unique = true)
+    @Email(message = "Invalid email format")
     private String email;
 
     @Column(name = "phone_number", nullable = false, unique = true)
+    @NotBlank(message = "phoneNumber is required")
+    @Pattern(regexp = "\\d{10}", message = "Phone number must be exactly 10 digits")
     private String phoneNumber;
 
     @NotNull(message = "Date of birth is required")
@@ -61,7 +62,6 @@ public class User {
     @Column(name = "updated_at", columnDefinition = "timestamp")
     @JsonFormat(pattern="yyyy-MM-dd")
     private Date updatedAt;
-
 
     @Column(name="status")
     @Enumerated(EnumType.STRING)
