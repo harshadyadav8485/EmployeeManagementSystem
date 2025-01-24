@@ -13,5 +13,9 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 public class ProjectResponseDto implements DataResponse {
+    private int currentPage;
+    private Long totalElements;
+    private Integer pageSize;
+    private Integer totalPages;
     private List<ProjectListResponseDto> projectResponseDtoList;
 }

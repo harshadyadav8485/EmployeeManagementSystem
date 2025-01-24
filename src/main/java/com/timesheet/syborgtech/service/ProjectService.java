@@ -79,6 +79,10 @@ public class ProjectService {
 
         return ProjectResponseDto.builder()
                 .projectResponseDtoList(projectResponseDtoList)
+                .pageSize(projects.getSize())
+                .totalPages(projects.getTotalPages())
+                .totalElements(projects.getTotalElements())
+                .currentPage(projects.getNumber()+1)
                 .build();
     }
 }
