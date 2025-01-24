@@ -30,7 +30,6 @@ public class Projects {
     @JsonFormat(pattern="yyyy-MM-dd")
     private Date updatedAt;
 
-
     @NotBlank(message = "Project name is required")
     @Column(name = "project_name", nullable = false, unique = true)
     private String projectName;

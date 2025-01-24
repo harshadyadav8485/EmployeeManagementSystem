@@ -1,5 +1,6 @@
 package com.timesheet.syborgtech.searchTerm;
 
+import com.timesheet.syborgtech.model.Projects;
 import com.timesheet.syborgtech.model.Role;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.util.StringUtils;
@@ -39,5 +40,25 @@ public class SearchTerm {
         }
 
         return resultSpec;
+    }
+
+    public static Specification<Projects> containsProject(String searchTerm, Long projectId) {
+
+        if (StringUtils.hasLength(searchTerm) && !searchTerm.contains("%")) {
+            searchTerm = "%" + searchTerm.toLowerCase() + "%";
+        }
+        String finalSearchTerm = searchTerm;
+
+        Specification<Projects> searchSpec = (root, query, criteriaBuilder) ->
+                criteriaBuilder.or(
+                        criteriaBuilder.like(criteriaBuilder.lower(root.get("projectName")), finalSearchTerm),
+                        criteriaBuilder.like(criteriaBuilder.lower(root.get("description")), finalSearchTerm)
+                );
+        if (Objects.nonNull(projectId)) {
+            Specification<Projects> projectIdSpec = (root, query, criteriaBuilder) ->
+                    criteriaBuilder.equal(root.get("id"), projectId);
+            searchSpec = searchSpec.and(projectIdSpec);
+        }
+        return searchSpec;
     }
 }

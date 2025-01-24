@@ -57,4 +57,12 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(
                 SyborgtechResponse.builder().status(StatusConstants.USER_NAME_ALREADY_EXISTS).build(), HttpStatus.CONFLICT);
     }
+
+    @ResponseStatus(HttpStatus.CONFLICT)
+    @ExceptionHandler(ProjectAlreadyExists.class)
+    public ResponseEntity<SyborgtechResponse> projectAlreadyExists(ProjectAlreadyExists e){
+        logger.error(e.getMessage());
+        return new ResponseEntity<>
+                (SyborgtechResponse.builder().status(StatusConstants.PROJECT_NAME_ALREADY_EXISTS).build(),HttpStatus.CONFLICT);
+    }
 }

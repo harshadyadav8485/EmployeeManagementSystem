@@ -32,7 +32,7 @@ public class RoleController {
     public SyborgtechResponse getRoles(
             @RequestParam(required = false, name = "searchTerm") String searchTerm,
             @RequestParam(required = false, name = "pageNo", defaultValue = "1") Integer pageNo,
-            @RequestParam(required = false, name = "recordsPerPage", defaultValue = "100000") Integer recordsPerPage,
+            @RequestParam(required = false, name = "recordsPerPage", defaultValue = "1000") Integer recordsPerPage,
             @RequestParam(name = "role_id",required = false)Long roleId) throws IOException {
         return SyborgtechResponse.builder()
                 .status(ApiStatus.builder()
