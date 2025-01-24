@@ -45,6 +45,8 @@ public class UserService {
         user.setEmail(userRegistrationRequest.getEmail());
         user.setPhoneNumber(userRegistrationRequest.getPhoneNumber());
         user.setDateOfBirth(userRegistrationRequest.getDateOfBirth());
+        user.setStatus(userRegistrationRequest.getStatus());
+        user.setDateOfJoining(userRegistrationRequest.getDateOfJoining());
         userRepository.save(user);
         return Response.builder().message("User Created Successfully").build();
     }
