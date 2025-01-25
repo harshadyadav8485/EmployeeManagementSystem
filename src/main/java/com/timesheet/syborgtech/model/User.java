@@ -7,6 +7,7 @@ import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 @Entity(name = "users")
@@ -77,6 +78,15 @@ public class User {
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
+
+    @OneToMany(mappedBy = "user")
+    private List<Task> taskList;
+
+    @OneToMany(mappedBy = "user")
+    private List<Subtask> subtaskList;
+
+    @OneToMany(mappedBy = "user")
+    private List<Comment> comments;
     public enum Status{
         CREATED,
         APPROVED,

@@ -52,8 +52,8 @@ public class Sprint {
     private SprintStatus sprintStatus;
 
     @ManyToOne
-    @JoinColumn(name = "epic_id", nullable = false)
-    private Epic epic;
+    @JoinColumn(name = "project_id", nullable = false)
+    private Projects projects;
 
     @OneToMany(mappedBy = "sprint",fetch = FetchType.LAZY)
     private List<Task> taskList;

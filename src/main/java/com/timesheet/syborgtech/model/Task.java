@@ -29,9 +29,6 @@ public class Task {
     @Column(columnDefinition = "TEXT")
     private String description;
 
-    @Column(name = "assignee_id", nullable = false)
-    private Long assigneeId;
-
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private TaskStatus status;
@@ -42,14 +39,14 @@ public class Task {
 
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
-    @JsonFormat(pattern="yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     @Column(name = "created_at", columnDefinition = "timestamp", updatable = false)
     private Date createAt;
 
     @UpdateTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "updated_at", columnDefinition = "timestamp")
-    @JsonFormat(pattern="yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date updatedAt;
 
     @OneToMany(mappedBy = "task")
@@ -57,6 +54,23 @@ public class Task {
 
     @OneToMany(mappedBy = "task")
     private List<Comment> comments;
+
+    @OneToOne(mappedBy = "task")
+    private Epic epic;
+
+    @Enumerated(EnumType.STRING)
+    private TaskType taskType;
+
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
+    public enum TaskType {
+        DEVELOPMENT,
+        BUG,
+        TECK_TASK,
+        NON_DEVLOPMENT_TASK
+    }
+
     public enum TaskStatus {
         TO_DO,
         IN_PROGRESS,

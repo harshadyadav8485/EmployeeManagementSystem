@@ -6,7 +6,6 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-
 import java.util.Date;
 import java.util.List;
 
@@ -38,5 +37,5 @@ public class Projects {
     private String description;
 
     @OneToMany(mappedBy = "projects",fetch = FetchType.LAZY,orphanRemoval = true)
-    private List<Epic> epic;
+    private List<Sprint> sprints;
 }

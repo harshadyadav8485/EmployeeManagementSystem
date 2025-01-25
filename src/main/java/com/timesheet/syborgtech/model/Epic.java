@@ -34,11 +34,8 @@ public class Epic {
     @JsonFormat(pattern="yyyy-MM-dd")
     private Date updatedAt;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "project_id", nullable = false, foreignKey = @ForeignKey(name = "FK_project_id"))
-    private Projects projects;
-
-    @OneToMany(mappedBy = "epic", fetch = FetchType.LAZY)
-    private List<Sprint> sprintList;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "task_id", nullable = false)
+    private Task task;
 
 }

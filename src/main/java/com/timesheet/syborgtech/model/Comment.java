@@ -24,9 +24,6 @@ public class Comment {
     @Column(name = "comment_text", nullable = false, columnDefinition = "TEXT")
     private String commentText;
 
-    @Column(name = "user_id", nullable = false)
-    private Long userId;
-
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     @JsonFormat(pattern="yyyy-MM-dd")
@@ -39,6 +36,9 @@ public class Comment {
     @JsonFormat(pattern="yyyy-MM-dd")
     private Date updatedAt;
 
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 
 }
 

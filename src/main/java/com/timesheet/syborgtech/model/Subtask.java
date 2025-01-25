@@ -30,8 +30,9 @@ public class Subtask {
     @Column(nullable = false)
     private SubtaskStatus status;
 
-    @Column(name = "assignee_id", nullable = false)
-    private Long assigneeId;
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
