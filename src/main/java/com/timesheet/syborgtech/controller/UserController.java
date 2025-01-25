@@ -1,6 +1,7 @@
 package com.timesheet.syborgtech.controller;
 
 
+import com.timesheet.syborgtech.dto.request.AssignProjectDto;
 import com.timesheet.syborgtech.dto.request.UserRegistrationRequest;
 import com.timesheet.syborgtech.dtoCommon.ApiStatus;
 import com.timesheet.syborgtech.dtoCommon.SyborgtechResponse;
@@ -28,5 +29,16 @@ public class UserController {
                         .statusMessage("User Created Successfully")
                         .build())
                 .data(userService.createUser(userRegistrationRequest)).build();
+    }
+
+    @PostMapping("/v1/assignProject")
+    public SyborgtechResponse assignProjects(@RequestBody AssignProjectDto assignProjectDto) throws IOException{
+        return SyborgtechResponse.builder()
+                .status(ApiStatus.builder()
+                        .status("SUCCESS")
+                        .statusCode("ORD-0001")
+                        .statusMessage("User and projects Successfully")
+                        .build())
+                .data(userService.assignProjects(assignProjectDto)).build();
     }
 }

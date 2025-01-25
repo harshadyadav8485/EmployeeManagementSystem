@@ -38,4 +38,7 @@ public class Projects {
 
     @OneToMany(mappedBy = "projects",fetch = FetchType.LAZY,orphanRemoval = true)
     private List<Sprint> sprints;
+
+    @ManyToMany(mappedBy = "projects")
+    private List<User> users;
 }
