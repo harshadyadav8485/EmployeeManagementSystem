@@ -63,7 +63,8 @@ public class Task {
     @OneToMany(mappedBy = "task")
     private List<Comment> comments;
 
-    @OneToOne(mappedBy = "task")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "epic_id", nullable = false)
     private Epic epic;
 
     @Enumerated(EnumType.STRING)

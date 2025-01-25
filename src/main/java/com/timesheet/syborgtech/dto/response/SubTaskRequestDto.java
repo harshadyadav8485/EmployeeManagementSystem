@@ -23,7 +23,7 @@ public class SubTaskRequestDto {
     private Subtask.SubtaskStatus status;
     private Long userId;
     private Long reporterId;
-    private Long budgetedHours;
+   // private Long budgetedHours;
     private Long actualHours;
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Kolkata")
     private Date startDate;

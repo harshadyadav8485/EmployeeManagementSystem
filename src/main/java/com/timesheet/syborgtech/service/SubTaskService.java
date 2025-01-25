@@ -10,9 +10,10 @@ import com.timesheet.syborgtech.repository.SubtaskRepository;
 import com.timesheet.syborgtech.repository.TaskRepository;
 import com.timesheet.syborgtech.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
-
+@Service
 public class SubTaskService {
 
     @Autowired
@@ -38,7 +39,7 @@ public class SubTaskService {
         subtask.setUser(user.get());
         subtask.setReporterId(subTaskRequestDto.getReporterId());
         subtask.setActualHours(subTaskRequestDto.getActualHours());
-        subtask.setBudgetedHours(subTaskRequestDto.getBudgetedHours());
+        subtask.setBudgetedHours(0L);
         subtask.setStartDate(subTaskRequestDto.getStartDate());
         subtask.setEndDate(subTaskRequestDto.getEndDate());
         subtaskRepository.save(subtask);

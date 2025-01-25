@@ -26,4 +26,5 @@ public class TaskRequestDto {
     private Task.Priority priority;
     private Task.TaskType taskType;
     private Long userId;
+    private Long epicId;
 }
