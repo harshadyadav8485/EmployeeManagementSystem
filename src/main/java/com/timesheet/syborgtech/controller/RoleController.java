@@ -43,7 +43,7 @@ public class RoleController {
                 .data(roleService.getRoles(searchTerm,pageNo,recordsPerPage,roleId)).build();
     }
 
-    @PutMapping("/v1/update")
+    @PutMapping("/v1")
     public SyborgtechResponse updateRole(@RequestBody RoleDtoRequest roleDtoRequest) throws IOException {
         return SyborgtechResponse.builder()
                 .status(ApiStatus.builder()

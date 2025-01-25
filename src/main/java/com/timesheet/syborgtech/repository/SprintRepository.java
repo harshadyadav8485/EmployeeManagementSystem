@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface SprintRepository extends JpaRepository<Sprint,Long> {
+
+    boolean existsByNameAndProjects_Id(String name, Long projectId);
 }

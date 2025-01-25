@@ -65,4 +65,20 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>
                 (SyborgtechResponse.builder().status(StatusConstants.PROJECT_NAME_ALREADY_EXISTS).build(),HttpStatus.CONFLICT);
     }
+
+    @ResponseStatus(HttpStatus.CONFLICT)
+    @ExceptionHandler(SprintNameAlreadyExists.class)
+    public ResponseEntity<SyborgtechResponse> sprintAlreadyExists(SprintNameAlreadyExists e){
+        logger.error(e.getMessage());
+        return new ResponseEntity<>
+                (SyborgtechResponse.builder().status(StatusConstants.SPRINT_NAME_ALREADY_EXISTS).build(),HttpStatus.CONFLICT);
+    }
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(ProjectNotFoundException.class)
+    public ResponseEntity<SyborgtechResponse> projectNotFoundException(ProjectNotFoundException e) {
+        logger.error(e.getMessage());
+        return new ResponseEntity<>(
+                SyborgtechResponse.builder().status(StatusConstants.PROJECT_NOT_FOUND).build(), HttpStatus.NOT_FOUND);
+    }
 }

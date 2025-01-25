@@ -39,4 +39,17 @@ public class StatusConstants {
             .statusCode("USER-001")
             .status("PROJECT_NAME_ALREADY_EXISTS")
             .build();
+
+    public static final ApiStatus SPRINT_NAME_ALREADY_EXISTS = ApiStatus.builder()
+            .statusMessage("SPRINT NAME ALREADY EXISTS!")
+            .statusCode("USER-001")
+            .status("SPRINT_NAME_ALREADY_EXISTS")
+            .build();
+
+
+    public static final ApiStatus PROJECT_NOT_FOUND = ApiStatus.builder()
+            .statusMessage("PROJECT NOT FOUND!")
+            .statusCode("PROJECT-001")
+            .status("PROJECT NOT FOUND")
+            .build();
 }
