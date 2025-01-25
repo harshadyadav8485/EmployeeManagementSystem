@@ -73,7 +73,6 @@ public class RoleService {
         roleResponseDto.setTotalElements(rolePage.getTotalElements());
         roleResponseDto.setCurrentPage(rolePage.getNumber()+1);
 
-
         return roleResponseDto;
     }
 

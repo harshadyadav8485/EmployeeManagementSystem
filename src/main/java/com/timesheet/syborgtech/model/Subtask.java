@@ -4,6 +4,9 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -11,6 +14,9 @@ import java.util.Date;
 
 @Entity
 @Table(name = "subtasks")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Subtask {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,6 +39,25 @@ public class Subtask {
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
+
+    @Column(name = "reporter_id")
+    private Long reporterId;
+
+    @Column(name = "budgeted_hours")
+    private Long budgetedHours;
+
+    @Column(name = "actual_hours")
+    private Long actualHours;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @JsonFormat(pattern="yyyy-MM-dd")
+    @Column(name = "start_date", columnDefinition = "timestamp", updatable = false)
+    private Date startDate;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @JsonFormat(pattern="yyyy-MM-dd")
+    @Column(name = "end_date", columnDefinition = "timestamp", updatable = false)
+    private Date endDate;
 
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)

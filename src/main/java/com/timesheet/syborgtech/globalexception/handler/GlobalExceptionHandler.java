@@ -81,4 +81,20 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(
                 SyborgtechResponse.builder().status(StatusConstants.PROJECT_NOT_FOUND).build(), HttpStatus.NOT_FOUND);
     }
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<SyborgtechResponse> projectNotFoundException(UserNotFoundException e) {
+        logger.error(e.getMessage());
+        return new ResponseEntity<>(
+                SyborgtechResponse.builder().status(StatusConstants.USER_NOT_FOUND).build(), HttpStatus.NOT_FOUND);
+    }
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(SprintNotFoundException.class)
+    public ResponseEntity<SyborgtechResponse> sprintNotFoundException(SprintNotFoundException e) {
+        logger.error(e.getMessage());
+        return new ResponseEntity<>(
+                SyborgtechResponse.builder().status(StatusConstants.SPRINT_NOT_FOUND).build(), HttpStatus.NOT_FOUND);
+    }
 }

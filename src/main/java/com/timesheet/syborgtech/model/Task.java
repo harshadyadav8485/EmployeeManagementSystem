@@ -4,6 +4,10 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -12,6 +16,10 @@ import java.util.List;
 
 @Entity
 @Table(name = "tasks")
+@Builder
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -64,6 +72,9 @@ public class Task {
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
+
+    @Column(name = "reporter_id")
+    private Long reporterId;
     public enum TaskType {
         DEVELOPMENT,
         BUG,

@@ -52,4 +52,17 @@ public class StatusConstants {
             .statusCode("PROJECT-001")
             .status("PROJECT NOT FOUND")
             .build();
+
+    public static final ApiStatus USER_NOT_FOUND = ApiStatus.builder()
+            .statusMessage("USER NOT FOUND!")
+            .statusCode("USER-001")
+            .status("USER NOT FOUND")
+            .build();
+
+
+    public static final ApiStatus SPRINT_NOT_FOUND = ApiStatus.builder()
+            .statusMessage("SPRINT NOT FOUND!")
+            .statusCode("SPRINT-001")
+            .status("SPRINT NOT FOUND")
+            .build();
 }
