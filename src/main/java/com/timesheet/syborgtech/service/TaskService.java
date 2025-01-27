@@ -41,7 +41,7 @@ public class TaskService {
         }
         Optional<Sprint> sprint = sprintRepository.findById(taskRequestDto.getSprintId());
         if (!sprint.isPresent()) {
-            throw new SprintNotFoundException("User Not Found Exception");
+            throw new SprintNotFoundException("Sprint Not Found Exception");
         }
         Optional<Epic> epic = epicRepository.findById(taskRequestDto.getEpicId());
         Task task = new Task();

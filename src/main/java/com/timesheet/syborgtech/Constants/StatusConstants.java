@@ -46,6 +46,11 @@ public class StatusConstants {
             .status("SPRINT_NAME_ALREADY_EXISTS")
             .build();
 
+    public static final ApiStatus EPIC_NAME_ALREADY_EXISTS = ApiStatus.builder()
+            .statusMessage("EPIC NAME ALREADY EXISTS!")
+            .statusCode("EPIC-001")
+            .status("EPIC_NAME_ALREADY_EXISTS")
+            .build();
 
     public static final ApiStatus PROJECT_NOT_FOUND = ApiStatus.builder()
             .statusMessage("PROJECT NOT FOUND!")
@@ -64,5 +69,11 @@ public class StatusConstants {
             .statusMessage("SPRINT NOT FOUND!")
             .statusCode("SPRINT-001")
             .status("SPRINT NOT FOUND")
+            .build();
+
+    public static final ApiStatus TASK_NOT_FOUND = ApiStatus.builder()
+            .statusMessage("TASK NOT FOUND!")
+            .statusCode("TASK-001")
+            .status("TASK NOT FOUND")
             .build();
 }

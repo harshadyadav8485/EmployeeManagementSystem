@@ -7,4 +7,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface EpicRepository extends JpaRepository<Epic, Long> {
+
+    boolean existsByName(String name);
 }

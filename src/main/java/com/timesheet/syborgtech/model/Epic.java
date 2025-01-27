@@ -4,6 +4,9 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -12,6 +15,9 @@ import java.util.List;
 
 @Entity
 @Table(name = "epics")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Epic {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
