@@ -40,7 +40,7 @@ public class SprintController {
                         .statusCode("200")
                         .statusMessage("Sprint fetched successfully")
                         .build())
-                .data(sprintService.getSprint()).build();
+                .data(sprintService.getSprint(searchTerm,pageNo,recordsPerPage,sprintId)).build();
 
     }
 }

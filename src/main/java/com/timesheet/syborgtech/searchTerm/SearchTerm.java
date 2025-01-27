@@ -2,6 +2,7 @@ package com.timesheet.syborgtech.searchTerm;
 
 import com.timesheet.syborgtech.model.Projects;
 import com.timesheet.syborgtech.model.Role;
+import com.timesheet.syborgtech.model.Sprint;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.util.StringUtils;
 
@@ -58,6 +59,25 @@ public class SearchTerm {
             Specification<Projects> projectIdSpec = (root, query, criteriaBuilder) ->
                     criteriaBuilder.equal(root.get("id"), projectId);
             searchSpec = searchSpec.and(projectIdSpec);
+        }
+        return searchSpec;
+    }
+
+    public static Specification<Sprint> containsSprint(String searchTerm,Long sprintId){
+        if(StringUtils.hasLength(searchTerm) && !searchTerm.contains("%")){
+            searchTerm = "%" + searchTerm.toLowerCase() + "%";
+        }
+        String finalSearchTerm = searchTerm;
+
+        Specification<Sprint> searchSpec = (root, query, criteriaBuilder) ->
+                criteriaBuilder.or(
+                        criteriaBuilder.like(criteriaBuilder.lower(root.get("name")), finalSearchTerm)
+                );
+
+        if (Objects.nonNull(sprintId)) {
+            Specification<Sprint> sprintIdSpec = (root, query, criteriaBuilder) ->
+                    criteriaBuilder.equal(root.get("id"), sprintId);
+            searchSpec = searchSpec.and(sprintIdSpec);
         }
         return searchSpec;
     }

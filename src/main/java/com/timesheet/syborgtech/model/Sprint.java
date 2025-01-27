@@ -1,6 +1,7 @@
 package com.timesheet.syborgtech.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -56,7 +57,9 @@ public class Sprint {
     private Projects projects;
 
     @OneToMany(mappedBy = "sprint",fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<Task> taskList;
+
      public enum SprintStatus{
          ACTIVE,COMPLETED
      }
