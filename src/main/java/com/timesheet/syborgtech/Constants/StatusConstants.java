@@ -15,6 +15,11 @@ public class StatusConstants {
             .status("Email ALREADY EXISTS")
             .build();
 
+    public static final ApiStatus PAGE_ALREADY_EXISTS = ApiStatus.builder()
+            .statusMessage("PAGE ALREADY EXISTS!")
+            .statusCode("PAGE-001")
+            .status("PAGE ALREADY EXISTS")
+            .build();
 
     public static final ApiStatus ROLE_ALREADY_EXISTS = ApiStatus.builder()
             .statusMessage("ROLE ALREADY EXISTS!")

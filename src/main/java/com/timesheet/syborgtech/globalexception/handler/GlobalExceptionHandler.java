@@ -100,7 +100,7 @@ public class GlobalExceptionHandler {
 
     @ResponseStatus(HttpStatus.CONFLICT)
     @ExceptionHandler(EpicAlreadyExists.class)
-    public ResponseEntity<SyborgtechResponse> sprintAlreadyExists(EpicAlreadyExists e){
+    public ResponseEntity<SyborgtechResponse> epicAlreadyExists(EpicAlreadyExists e){
         logger.error(e.getMessage());
         return new ResponseEntity<>
                 (SyborgtechResponse.builder().status(StatusConstants.EPIC_NAME_ALREADY_EXISTS).build(),HttpStatus.CONFLICT);
@@ -109,9 +109,18 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.NOT_FOUND)
 
     @ExceptionHandler(TaskNotFoundException.class)
-    public ResponseEntity<SyborgtechResponse> sprintNotFoundException(TaskNotFoundException e) {
+    public ResponseEntity<SyborgtechResponse> taskNotFoundException(TaskNotFoundException e) {
         logger.error(e.getMessage());
         return new ResponseEntity<>(
                 SyborgtechResponse.builder().status(StatusConstants.TASK_NOT_FOUND).build(), HttpStatus.NOT_FOUND);
+    }
+
+
+    @ResponseStatus(HttpStatus.CONFLICT)
+    @ExceptionHandler(PageAlreadyExists.class)
+    public ResponseEntity<SyborgtechResponse> pageAlreadyExists(PageAlreadyExists e){
+        logger.error(e.getMessage());
+        return new ResponseEntity<>
+                (SyborgtechResponse.builder().status(StatusConstants.PAGE_ALREADY_EXISTS).build(),HttpStatus.CONFLICT);
     }
 }
