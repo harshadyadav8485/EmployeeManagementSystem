@@ -81,4 +81,16 @@ public class StatusConstants {
             .statusCode("TASK-001")
             .status("TASK NOT FOUND")
             .build();
+
+    public static final ApiStatus USER_NAME_INVALID = ApiStatus.builder()
+            .statusMessage("USER NOT FOUND!")
+            .statusCode("USER-001")
+            .status("USER NOT FOUND")
+            .build();
+
+    public static final ApiStatus PASSWORD_INVALID_EXCEPTION = ApiStatus.builder()
+            .statusMessage("PASSWORD INVALID EXCEPTION!")
+            .statusCode("PASSWORD-001")
+            .status("PASSWORD INVALID EXCEPTION")
+            .build();
 }

@@ -7,4 +7,6 @@ import java.util.Optional;
 
 public interface PageRepository extends JpaRepository<Page, Long> {
     boolean existsByName(String name);
+
+    Page findByName(String name);
 }

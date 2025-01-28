@@ -1,13 +1,13 @@
 package com.timesheet.syborgtech.service;
 
 import com.timesheet.syborgtech.dto.request.RoleDtoRequest;
-import com.timesheet.syborgtech.dto.response.Response;
-import com.timesheet.syborgtech.dto.response.RoleListResponseDto;
-import com.timesheet.syborgtech.dto.response.RoleResponseDto;
-import com.timesheet.syborgtech.dtoCommon.DataResponse;
+import com.timesheet.syborgtech.dto.response.*;
 import com.timesheet.syborgtech.exceptions.RoleAlreadyExists;
 import com.timesheet.syborgtech.exceptions.RoleNotFoundException;
+import com.timesheet.syborgtech.model.PageRolePermission;
 import com.timesheet.syborgtech.model.Role;
+import com.timesheet.syborgtech.repository.PageRepository;
+import com.timesheet.syborgtech.repository.PageRolePermissionRepository;
 import com.timesheet.syborgtech.repository.RoleRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,6 +31,12 @@ public class RoleService {
 
     @Autowired
     private RoleRepository roleRepository;
+
+    @Autowired
+    private PageRepository pageRepository;
+
+    @Autowired
+    private PageRolePermissionRepository pageRolePermissionRepository;
 
     public Response createRole(RoleDtoRequest roleDtoRequest) {
 
@@ -77,7 +83,7 @@ public class RoleService {
         roleResponseDto.setTotalPages(rolePage.getTotalPages());
         roleResponseDto.setPageSize(rolePage.getSize());
         roleResponseDto.setTotalElements(rolePage.getTotalElements());
-        roleResponseDto.setCurrentPage(rolePage.getNumber()+1);
+        roleResponseDto.setCurrentPage(rolePage.getNumber() + 1);
 
         return roleResponseDto;
     }
@@ -86,7 +92,7 @@ public class RoleService {
     public Response updateRole(RoleDtoRequest roleDtoRequest) {
         Role existingRole = roleRepository.findById(roleDtoRequest.getRoleId())
                 .orElseThrow(() -> new RoleNotFoundException("Role not found with ID: " + roleDtoRequest.getRoleId()));
-        boolean existRole=roleRepository.existsByRoleNameAndIdNot(roleDtoRequest.getRoleName().toUpperCase(), roleDtoRequest.getRoleId());
+        boolean existRole = roleRepository.existsByRoleNameAndIdNot(roleDtoRequest.getRoleName().toUpperCase(), roleDtoRequest.getRoleId());
 
         if (existRole) {
             throw new RoleAlreadyExists("Role name '" + roleDtoRequest.getRoleName() + "' already exists.");
@@ -98,5 +104,28 @@ public class RoleService {
 
         Role updatedRole = roleRepository.save(existingRole);
         return Response.builder().message("Role Updated Successfully").build();
+    }
+
+    public PageDetailsResponse pageDetailsViewList(String roleName) {
+        Optional<Role> role = roleRepository.findByRoleName(roleName);
+        List<pageDetailsViewList> pageDetailsViewList = new ArrayList<>();
+        if (role.isPresent()) {
+            List<PageRolePermission> pageRolePermissions = pageRolePermissionRepository.findAllByRole(role.get());
+            pageRolePermissions.forEach((pr) -> {
+                pageDetailsViewList list = new pageDetailsViewList();
+                list.setRoleId(pr.getRole().getId());
+                list.setRoleName(pr.getRole().getRoleName());
+                list.setPageId(pr.getPage().getId());
+                list.setPageName(pr.getPage().getName());
+                list.setCanView(pr.isCanView());
+                list.setCanCreate(pr.isCanCreate());
+                list.setCanUpdate(pr.isCanUpdate());
+                list.setCanDelete(pr.isCanDelete());
+                pageDetailsViewList.add(list);
+            });
+        }
+        PageDetailsResponse pageDetailsResponse=new PageDetailsResponse();
+        pageDetailsResponse.setPageDetailsViewList(pageDetailsViewList);
+        return pageDetailsResponse;
     }
 }
