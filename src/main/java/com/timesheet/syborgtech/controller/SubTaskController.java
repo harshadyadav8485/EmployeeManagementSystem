@@ -22,7 +22,7 @@ public class SubTaskController {
                 .status(ApiStatus.builder()
                         .status("SUCCESS")
                         .statusCode("Sprint-001")
-                        .statusMessage("Task Created Successfully")
+                        .statusMessage("SubTask Created Successfully")
                         .build())
                 .data(subTaskService.createSubTask(subTaskRequestDto)).build();
     }
@@ -40,7 +40,7 @@ public class SubTaskController {
                 .status(ApiStatus.builder()
                         .status("SUCCESS")
                         .statusCode("ORD-0001")
-                        .statusMessage("Project Fetched Successfully")
+                        .statusMessage("SubTask Fetched Successfully")
                         .build())
                 .data(subTaskService.getSubTasks(searchTerm,pageNo,recordsPerPage,subTaskId,taskId)).build();
     }
