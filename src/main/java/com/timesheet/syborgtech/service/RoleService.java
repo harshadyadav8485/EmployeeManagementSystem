@@ -45,6 +45,12 @@ public class RoleService {
         newRole.setStatus(roleDtoRequest.getStatus());
         roleRepository.save(newRole);
 
+//        Role role1=Role.builder()
+//                .roleName(roleDtoRequest.getRoleName())
+//                .id(roleDtoRequest.getRoleId())
+//                .description(roleDtoRequest.getDescription())
+//                .build();
+//      roleRepository.save(role1);
 
         return Response.builder().message("Role Created Successfully").build();
     }
