@@ -1,6 +1,7 @@
 package com.timesheet.syborgtech.repository;
 
 import com.timesheet.syborgtech.model.Subtask;
+import com.timesheet.syborgtech.model.Task;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -18,5 +19,9 @@ public interface SubtaskRepository extends JpaRepository<Subtask,Long> {
     Page<Subtask> findAllById(Long subTaskId, Pageable page);
     Page<Subtask> findAllByTask_TaskId(Long taskId, Pageable pageable);
     List<Subtask> findAllByUser_Id(Long userId, Sort sort);
+
+    List<Subtask> findAllByTaskIn(List<Task> tasks,Sort sort);
+    List<Subtask> findAllById(Long subTaskId,Sort sort);
+    List<Subtask> findAllByTask_TaskId(Long taskId,Sort sort);
 
 }
