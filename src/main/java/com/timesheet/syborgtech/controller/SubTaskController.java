@@ -66,7 +66,7 @@ public class SubTaskController {
                 .status(ApiStatus.builder()
                         .status("SUCCESS")
                         .statusCode("ORD-0001")
-                        .statusMessage("SubTask Fetched Successfully")
+                        .statusMessage("Timesheet Fetched Successfully")
                         .build())
                 .data(subTaskService.getTimeSheet(subTaskId,taskId,sprintId,userId,projectId,sortOrder)).build();
     }
