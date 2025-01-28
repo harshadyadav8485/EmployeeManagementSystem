@@ -5,9 +5,11 @@ import com.timesheet.syborgtech.dto.response.SubTaskListResponseDto;
 import com.timesheet.syborgtech.dto.response.SubTaskRequestDto;
 import com.timesheet.syborgtech.dto.response.SubTasksResponseDto;
 import com.timesheet.syborgtech.dtoCommon.DataResponse;
+import com.timesheet.syborgtech.exceptions.TaskNotFoundException;
 import com.timesheet.syborgtech.exceptions.UserNotFoundException;
 import com.timesheet.syborgtech.model.Role;
 import com.timesheet.syborgtech.model.Subtask;
+import com.timesheet.syborgtech.model.Task;
 import com.timesheet.syborgtech.model.User;
 import com.timesheet.syborgtech.repository.SubtaskRepository;
 import com.timesheet.syborgtech.repository.TaskRepository;
@@ -45,17 +47,20 @@ public class SubTaskService {
         if (!user.isPresent()) {
             throw new UserNotFoundException("User Not Found Exception");
         }
-
+        Optional<Task> task = taskRepository.findById(subTaskRequestDto.getTaskId());
+        if (!task.isPresent()) {
+            throw new TaskNotFoundException("Task not found with ID: " + subTaskRequestDto.getTaskId());
+        }
         Subtask subtask = new Subtask();
         subtask.setName(subTaskRequestDto.getName());
         subtask.setStatus(subTaskRequestDto.getStatus());
-        subtask.setTask(taskRepository.findById(subTaskRequestDto.getTaskId()).get());
+        subtask.setTask(task.get());
         subtask.setUser(user.get());
         subtask.setReporterId(subTaskRequestDto.getReporterId());
-        subtask.setActualHours(subTaskRequestDto.getActualHours());
-        subtask.setBudgetedHours(0L);
+        subtask.setActualHours(subTaskRequestDto.getActualHours()!=null ?subTaskRequestDto.getActualHours():0L);
+        subtask.setBudgetedHours(subTaskRequestDto.getBudgetedHours());
         subtask.setStartDate(subTaskRequestDto.getStartDate());
-        subtask.setEndDate(subTaskRequestDto.getEndDate());
+        subtask.setEndDate(subTaskRequestDto.getEndDate()!=null?subTaskRequestDto.getEndDate():null);
         subtaskRepository.save(subtask);
 
         return Response.builder().message("SubTask Created Successfully").build();
@@ -92,7 +97,8 @@ public class SubTaskService {
             );
             responseDto.setSubTaskName(subTask.getName() != null ? subTask.getName() : "N/A");
             responseDto.setStatus(subTask.getStatus() != null ? subTask.getStatus() : Subtask.SubtaskStatus.TO_DO);
-            responseDto.setUser(subTask.getUser());
+            responseDto.setUserName(subTask.getUser().getUserName());
+            responseDto.setUserId(subTask.getUser().getId());
             responseDto.setReporterId(subTask.getReporterId());
             responseDto.setReporterName(user.isPresent() ? user.get().getFirstName() : "N/A");
             responseDto.setBudgetedHours(subTask.getBudgetedHours() != null ? subTask.getBudgetedHours() : 0L);

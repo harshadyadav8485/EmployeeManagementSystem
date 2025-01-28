@@ -27,7 +27,6 @@ public class SubTaskController {
                 .data(subTaskService.createSubTask(subTaskRequestDto)).build();
     }
 
-
     @GetMapping("/v1")
     public SyborgtechResponse getSubTasks(
             @RequestParam(required = false, name = "searchTerm") String searchTerm,

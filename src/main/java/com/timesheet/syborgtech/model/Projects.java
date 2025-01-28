@@ -1,6 +1,7 @@
 package com.timesheet.syborgtech.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
@@ -37,6 +38,7 @@ public class Projects {
     private String description;
 
     @OneToMany(mappedBy = "projects",fetch = FetchType.LAZY,orphanRemoval = true)
+    @JsonIgnore
     private List<Sprint> sprints;
 
     @ManyToMany(mappedBy = "projects")
