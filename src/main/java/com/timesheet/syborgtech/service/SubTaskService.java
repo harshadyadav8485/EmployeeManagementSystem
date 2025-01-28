@@ -107,7 +107,7 @@ public class SubTaskService {
             responseDto.setEndDate(subTask.getEndDate());
             responseDto.setCreateAt(subTask.getCreateAt());
             responseDto.setUpdatedAt(subTask.getUpdatedAt());
-
+            responseDto.setSprintName(subTask.getTask().getSprint().getName());
             subTaskListResponseDtos.add(responseDto);
         });
 
@@ -121,4 +121,44 @@ public class SubTaskService {
         return subTasksResponseDto;
     }
 
+    public SubTasksResponseDto getTimeSheet(Long subTaskId, Long taskId, Long sprintId, Long userId, Long projectId,String sortOrder) {
+        Sort sort = Sort.by(Sort.Direction.DESC, "startDate");
+        if ("asc".equalsIgnoreCase(sortOrder)) {
+            sort = Sort.by(Sort.Direction.ASC, "startDate");
+        }
+        List<Subtask> subtasks=subtaskRepository.findAllByUser_Id(userId,sort);
+        if (subtasks == null || subtasks.isEmpty()) {
+            return new SubTasksResponseDto(0, 0L, 0, 0, Collections.emptyList());
+        }
+
+        List<SubTaskListResponseDto> subTaskListResponseDtos = new ArrayList<>();
+
+        subtasks.forEach(subTask -> {
+            Optional<User> user = userRepository.findById(subTask.getReporterId());
+
+            SubTaskListResponseDto responseDto = new SubTaskListResponseDto();
+            responseDto.setId(subTask.getId());
+            responseDto.setTaskName(
+                    subTask.getTask() != null ? subTask.getTask().getName() : "N/A"
+            );
+            responseDto.setSubTaskName(subTask.getName() != null ? subTask.getName() : "N/A");
+            responseDto.setStatus(subTask.getStatus() != null ? subTask.getStatus() : Subtask.SubtaskStatus.TO_DO);
+            responseDto.setUserName(subTask.getUser().getUserName());
+            responseDto.setUserId(subTask.getUser().getId());
+            responseDto.setReporterId(subTask.getReporterId());
+            responseDto.setReporterName(user.isPresent() ? user.get().getFirstName() : "N/A");
+            responseDto.setBudgetedHours(subTask.getBudgetedHours() != null ? subTask.getBudgetedHours() : 0L);
+            responseDto.setActualHours(subTask.getActualHours() != null ? subTask.getActualHours() : 0L);
+            responseDto.setStartDate(subTask.getStartDate());
+            responseDto.setEndDate(subTask.getEndDate());
+            responseDto.setCreateAt(subTask.getCreateAt());
+            responseDto.setUpdatedAt(subTask.getUpdatedAt());
+            responseDto.setSprintName(subTask.getTask().getSprint().getName());
+            subTaskListResponseDtos.add(responseDto);
+        });
+
+        SubTasksResponseDto subTasksResponseDto = new SubTasksResponseDto();
+        subTasksResponseDto.setSubTaskListResponseDtos(subTaskListResponseDtos);
+
+        return subTasksResponseDto;    }
 }

@@ -35,6 +35,7 @@ public class SubTaskListResponseDto {
 
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss", timezone="Asia/Kolkata")
     private Date updatedAt;
+    private String sprintName;
 
 
 }
