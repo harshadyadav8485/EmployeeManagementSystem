@@ -1,9 +1,6 @@
 package com.timesheet.syborgtech.searchTerm;
 
-import com.timesheet.syborgtech.model.Page;
-import com.timesheet.syborgtech.model.Projects;
-import com.timesheet.syborgtech.model.Role;
-import com.timesheet.syborgtech.model.Subtask;
+import com.timesheet.syborgtech.model.*;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.util.StringUtils;
 
@@ -106,6 +103,30 @@ public class SearchTerm {
             return (root, query, criteriaBuilder) ->
                     criteriaBuilder.or(criteriaBuilder.like(criteriaBuilder.lower(root.get("name")), finalSearchTerm)
                     );
+        }
+        return null;
+    }
+
+    public static Specification<User> containsUser(String searchTerm, Long userId) {
+
+        boolean hasSearchTerm = StringUtils.hasLength(searchTerm);
+        String finalSearchTerm = hasSearchTerm && !searchTerm.contains("%")
+                ? "%" + searchTerm.toLowerCase() + "%"
+                : searchTerm;
+
+        if(hasSearchTerm) {
+            return  (root, query, criteriaBuilder) ->
+                    criteriaBuilder.or(
+                            criteriaBuilder.like(criteriaBuilder.lower(root.get("userName")), finalSearchTerm),
+                            criteriaBuilder.like(criteriaBuilder.lower(root.get("firstName")), finalSearchTerm),
+                            criteriaBuilder.like(criteriaBuilder.lower(root.get("lastName")), finalSearchTerm),
+                            criteriaBuilder.like(criteriaBuilder.lower(root.get("email")), finalSearchTerm),
+                            criteriaBuilder.like(criteriaBuilder.lower(root.get("phoneNumber")), finalSearchTerm)
+                    );
+        }
+        if (Objects.nonNull(userId)) {
+            return (root, query, criteriaBuilder) ->
+                    criteriaBuilder.equal(root.get("id"), userId);
         }
         return null;
     }
