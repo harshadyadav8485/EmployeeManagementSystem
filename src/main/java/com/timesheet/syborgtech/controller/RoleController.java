@@ -53,4 +53,16 @@ public class RoleController {
                         .build())
                 .data(roleService.updateRole(roleDtoRequest)).build();
     }
+
+    @GetMapping("/v1/pageView")
+    public SyborgtechResponse pageDetailsViewList(
+            @RequestParam(name = "roleName")String roleName) throws IOException {
+        return SyborgtechResponse.builder()
+                .status(ApiStatus.builder()
+                        .status("SUCCESS")
+                        .statusCode("ORD-0001")
+                        .statusMessage("Roles Fetched Successfully")
+                        .build())
+                .data(roleService.pageDetailsViewList(roleName)).build();
+    }
 }

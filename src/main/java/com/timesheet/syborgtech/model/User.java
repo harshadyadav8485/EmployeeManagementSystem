@@ -1,6 +1,7 @@
 package com.timesheet.syborgtech.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.Data;
@@ -83,6 +84,7 @@ public class User {
     private List<Task> taskList;
 
     @OneToMany(mappedBy = "user")
+    @JsonIgnore
     private List<Subtask> subtaskList;
 
     @OneToMany(mappedBy = "user")

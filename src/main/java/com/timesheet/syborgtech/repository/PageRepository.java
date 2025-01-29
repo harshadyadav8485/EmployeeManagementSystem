@@ -9,4 +9,6 @@ public interface PageRepository extends JpaRepository<Page, Long> {
     boolean existsByName(String name);
 
     org.springframework.data.domain.Page<Page> findAll(Specification<Page> containsPage, Pageable page);
+   
+    Page findByName(String name);
 }

@@ -2,6 +2,7 @@ package com.timesheet.syborgtech.controller;
 
 
 import com.timesheet.syborgtech.dto.request.AssignProjectDto;
+import com.timesheet.syborgtech.dto.request.UserLoginRequestDto;
 import com.timesheet.syborgtech.dto.request.UserRegistrationRequest;
 import com.timesheet.syborgtech.dtoCommon.ApiStatus;
 import com.timesheet.syborgtech.dtoCommon.SyborgtechResponse;
@@ -13,13 +14,10 @@ import java.io.IOException;
 @RestController
 @RequestMapping("/user")
 public class UserController {
-
     private final UserService userService;
-
     public UserController(UserService userService) {
         this.userService = userService;
     }
-
     @PostMapping("/v1")
     public SyborgtechResponse createUser(@RequestBody UserRegistrationRequest userRegistrationRequest) throws IOException{
         return SyborgtechResponse.builder()
@@ -56,4 +54,13 @@ public class UserController {
                         .build())
                 .data(userService.getUsers(searchTerm,pageNo,recordsPerPage,userId)).build();
     }
+  
+  @PostMapping("/login")public SyborgtechResponse loginUser(@RequestBody UserLoginRequestDto userLoginRequestDto) throws IOException{  
+    return SyborgtechResponse.builder()        
+      .status(ApiStatus.builder()          
+              .status("SUCCESS")               
+              .statusCode("ORD-0001")         
+              .statusMessage("Userlogin Successfully")
+              .build())        
+      .data(userService.loginUser(userLoginRequestDto)).build();}
 }

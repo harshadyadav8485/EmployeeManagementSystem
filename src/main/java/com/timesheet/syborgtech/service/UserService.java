@@ -2,14 +2,14 @@ package com.timesheet.syborgtech.service;
 
 
 import com.timesheet.syborgtech.dto.request.AssignProjectDto;
+import com.timesheet.syborgtech.dto.request.UserLoginRequestDto;
 import com.timesheet.syborgtech.dto.request.UserRegistrationRequest;
 import com.timesheet.syborgtech.dto.response.Response;
 import com.timesheet.syborgtech.dto.response.UserListResponseDto;
 import com.timesheet.syborgtech.dto.response.UserResponseDto;
+import com.timesheet.syborgtech.dto.response.UserLoginResponse;
 import com.timesheet.syborgtech.dtoCommon.DataResponse;
-import com.timesheet.syborgtech.exceptions.EmailAlreadyExists;
-import com.timesheet.syborgtech.exceptions.UserNameAlreadyExists;
-import com.timesheet.syborgtech.exceptions.UserNotFoundException;
+import com.timesheet.syborgtech.exceptions.*;
 import com.timesheet.syborgtech.model.Projects;
 import com.timesheet.syborgtech.model.User;
 import com.timesheet.syborgtech.repository.ProjectRepository;
@@ -126,6 +126,20 @@ public class UserService {
         userResponseDto.setCurrentPage(userPage.getNumber()+1);
 
         return userResponseDto;
+    }
+  
+    public UserLoginResponse loginUser(UserLoginRequestDto userLoginRequestDto) {
+        Optional<User> user = userRepository.findByUserName(userLoginRequestDto.getUserName());
+        if (!user.isPresent()) {
+            throw new UserNameInvalidException("User Name Is Invalid");
+        }
+
+        if (user != null && user.get().getPassword().equals(userLoginRequestDto.getPassword())) {
+
+        } else {
+            throw new PasswordInvalidException("Password Is Invalid");
+        }
+        return null;
     }
 }
 

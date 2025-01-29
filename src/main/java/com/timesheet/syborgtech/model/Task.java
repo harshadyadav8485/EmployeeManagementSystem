@@ -1,6 +1,7 @@
 package com.timesheet.syborgtech.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -58,6 +59,7 @@ public class Task {
     private Date updatedAt;
 
     @OneToMany(mappedBy = "task")
+    @JsonIgnore
     private List<Subtask> subtaskList;
 
     @OneToMany(mappedBy = "task")
@@ -72,6 +74,7 @@ public class Task {
 
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name = "user_id")
+    @JsonIgnore
     private User user;
 
     @Column(name = "reporter_id")

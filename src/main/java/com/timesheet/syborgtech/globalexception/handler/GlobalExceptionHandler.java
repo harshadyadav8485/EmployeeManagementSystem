@@ -123,4 +123,20 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>
                 (SyborgtechResponse.builder().status(StatusConstants.PAGE_ALREADY_EXISTS).build(),HttpStatus.CONFLICT);
     }
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(UserNameInvalidException.class)
+    public ResponseEntity<SyborgtechResponse> userNameInvalidException(UserNameInvalidException e){
+        logger.error(e.getMessage());
+        return new ResponseEntity<>
+                (SyborgtechResponse.builder().status(StatusConstants.USER_NAME_INVALID).build(),HttpStatus.NOT_FOUND);
+    }
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(PasswordInvalidException.class)
+    public ResponseEntity<SyborgtechResponse> userNameInvalidException(PasswordInvalidException e){
+        logger.error(e.getMessage());
+        return new ResponseEntity<>
+                (SyborgtechResponse.builder().status(StatusConstants.PASSWORD_INVALID_EXCEPTION).build(),HttpStatus.NOT_FOUND);
+    }
 }
