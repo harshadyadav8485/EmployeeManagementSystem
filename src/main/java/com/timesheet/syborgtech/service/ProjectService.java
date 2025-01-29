@@ -22,7 +22,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 import static com.timesheet.syborgtech.searchTerm.SearchTerm.containsProject;
-import static com.timesheet.syborgtech.searchTerm.SearchTerm.containsText;
 
 @Service
 @AllArgsConstructor
@@ -50,13 +49,15 @@ public class ProjectService {
         return Response.builder().message("project created successfully").build();
     }
 
-    public ProjectResponseDto getProjects(String searchTerm, Integer pageNo, Integer recordsPerPage, Long projectId) {
+    public ProjectResponseDto getProjects(String searchTerm, Integer pageNo, Integer recordsPerPage, Long projectId, Long userId) {
         Pageable page = PageRequest.of(pageNo - 1, recordsPerPage, Sort.Direction.DESC, "id");
         Page<Projects> projects = null;
         if (searchTerm != null && !searchTerm.trim().isEmpty()) {
             projects = projectRepository.findAll(containsProject(searchTerm, projectId), page);
         } else if (projectId != null) {
             projects = projectRepository.findAllById(projectId, page);
+        } else if (userId != null) {
+            projects = projectRepository.findByUsersId(userId, page);
         } else {
             projects = projectRepository.findAll(page);
         }
@@ -82,7 +83,7 @@ public class ProjectService {
                 .pageSize(projects.getSize())
                 .totalPages(projects.getTotalPages())
                 .totalElements(projects.getTotalElements())
-                .currentPage(projects.getNumber()+1)
+                .currentPage(projects.getNumber() + 1)
                 .build();
     }
 }
