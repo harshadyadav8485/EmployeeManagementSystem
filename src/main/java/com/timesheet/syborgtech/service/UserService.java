@@ -69,6 +69,7 @@ public class UserService {
         user.setDateOfBirth(userRegistrationRequest.getDateOfBirth());
         user.setStatus(userRegistrationRequest.getStatus());
         user.setDateOfJoining(userRegistrationRequest.getDateOfJoining());
+        user.setLoggedIn(false);
         userRepository.save(user);
         return Response.builder().message("User Created Successfully").build();
     }
@@ -129,17 +130,21 @@ public class UserService {
     }
   
     public UserLoginResponse loginUser(UserLoginRequestDto userLoginRequestDto) {
-        Optional<User> user = userRepository.findByUserName(userLoginRequestDto.getUserName());
+        Optional<User> user = userRepository.findByUserName(userLoginRequestDto.getUserName().trim());
         if (!user.isPresent()) {
             throw new UserNameInvalidException("User Name Is Invalid");
         }
-
-        if (user != null && user.get().getPassword().equals(userLoginRequestDto.getPassword())) {
-
+        if (user != null && user.get().getPassword().equals(userLoginRequestDto.getPassword().trim())) {
+            user.get().setLoggedIn(true);
+            userRepository.save(user.get());
         } else {
             throw new PasswordInvalidException("Password Is Invalid");
         }
-        return null;
+        UserLoginResponse userLoginResponse=new UserLoginResponse();
+        userLoginResponse.setUserName(user.get().getUserName());
+        userLoginResponse.setUserId(user.get().getId());
+        userLoginResponse.setLoggedIn(user.get().isLoggedIn());
+        return userLoginResponse;
     }
 }
 

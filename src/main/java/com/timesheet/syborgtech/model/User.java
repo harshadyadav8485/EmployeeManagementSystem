@@ -90,6 +90,9 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Comment> comments;
 
+    @Column(name = "isLoggedIn")
+    private boolean isLoggedIn;
+
     @ManyToMany
     @JoinTable(
             name = "user_project",

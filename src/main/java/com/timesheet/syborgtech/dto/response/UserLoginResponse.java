@@ -12,5 +12,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UserLoginResponse implements DataResponse {
     private String userName;
-
+    private Long userId;
+    private boolean isLoggedIn;
 }
