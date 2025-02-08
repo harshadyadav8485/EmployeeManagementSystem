@@ -20,34 +20,34 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "Username is required")
+  //  @NotBlank(message = "Username is required")
     @Column(name = "user_name", nullable = false, unique = true)
     private String userName;
 
-    @NotBlank(message = "Password is required")
+   // @NotBlank(message = "Password is required")
     @Column(name = "password", nullable = false)
     private String password;
 
-    @NotBlank(message = "First name is required")
+   // @NotBlank(message = "First name is required")
     @Column(name = "first_name", nullable = false)
     private String firstName;
 
-    @NotBlank(message = "Last name is required")
+ //   @NotBlank(message = "Last name is required")
     @Column(name = "last_name", nullable = false)
     private String lastName;
 
-    @NotBlank(message = "Email is required")
+  //  @NotBlank(message = "Email is required")
     @Column(name = "email", nullable = false, unique = true)
     @Email(message = "Invalid email format")
     private String email;
 
     @Column(name = "phone_number", nullable = false, unique = true)
-    @NotBlank(message = "phoneNumber is required")
-    @Pattern(regexp = "\\d{10}", message = "Phone number must be exactly 10 digits")
+//    @NotBlank(message = "phoneNumber is required")
+//    @Pattern(regexp = "\\d{10}", message = "Phone number must be exactly 10 digits")
     private String phoneNumber;
 
-    @NotNull(message = "Date of birth is required")
-    @Past(message = "Date of birth must be in the past")
+//    @NotNull(message = "Date of birth is required")
+//    @Past(message = "Date of birth must be in the past")
     @Column(name = "date_of_birth", nullable = false)
     @JsonFormat(pattern="yyyy-MM-dd")
     private Date dateOfBirth;
@@ -100,6 +100,9 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "project_id")
     )
     private List<Projects> projects;
+
+    @Lob
+    private byte[] qrCode;
     public enum Status{
         CREATED,
         APPROVED,

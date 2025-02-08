@@ -30,6 +30,24 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import com.google.zxing.WriterException;
+import jakarta.transaction.Transactional;
+import org.springframework.stereotype.Service;
+import java.io.IOException;
+import java.util.Optional;
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.EncodeHintType;
+import com.google.zxing.WriterException;
+import com.google.zxing.client.j2se.MatrixToImageWriter;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.qrcode.QRCodeWriter;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.nio.file.FileSystems;
+import java.nio.file.Path;
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.timesheet.syborgtech.searchTerm.SearchTerm.containsUser;
 
@@ -145,6 +163,37 @@ public class UserService {
         userLoginResponse.setUserId(user.get().getId());
         userLoginResponse.setLoggedIn(user.get().isLoggedIn());
         return userLoginResponse;
+    }
+
+    @Transactional
+    public User createUser(String name, String email) throws WriterException, IOException {
+        User user = new User();
+        user.setUserName(name);
+        user.setEmail(email);
+
+        // Generate QR Code
+        String qrContent = "Name: " + name + ", Email: " + email;
+        byte[] qrCode = QRCodeGenerator.generateQRCode(qrContent, 200, 200);
+        user.setQrCode(qrCode);
+
+        return userRepository.save(user);
+    }
+
+    public Optional<User> getUser(Long id) {
+        return userRepository.findById(id);
+    }
+
+    public class QRCodeGenerator {
+        public static byte[] generateQRCode(String text, int width, int height) throws WriterException, IOException {
+            QRCodeWriter qrCodeWriter = new QRCodeWriter();
+            Map<EncodeHintType, Object> hints = new HashMap<>();
+            hints.put(EncodeHintType.CHARACTER_SET, "UTF-8");
+
+            BitMatrix bitMatrix = qrCodeWriter.encode(text, BarcodeFormat.QR_CODE, width, height, hints);
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            MatrixToImageWriter.writeToStream(bitMatrix, "PNG", outputStream);
+            return outputStream.toByteArray();
+        }
     }
 }
 

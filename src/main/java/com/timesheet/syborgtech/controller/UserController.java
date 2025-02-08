@@ -1,15 +1,27 @@
 package com.timesheet.syborgtech.controller;
 
 
+import com.google.zxing.WriterException;
 import com.timesheet.syborgtech.dto.request.AssignProjectDto;
 import com.timesheet.syborgtech.dto.request.UserLoginRequestDto;
 import com.timesheet.syborgtech.dto.request.UserRegistrationRequest;
 import com.timesheet.syborgtech.dtoCommon.ApiStatus;
 import com.timesheet.syborgtech.dtoCommon.SyborgtechResponse;
+import com.timesheet.syborgtech.model.User;
 import com.timesheet.syborgtech.service.UserService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import com.google.zxing.WriterException;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.Optional;
+import java.io.IOException;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/user")
@@ -63,4 +75,23 @@ public class UserController {
               .statusMessage("Userlogin Successfully")
               .build())        
       .data(userService.loginUser(userLoginRequestDto)).build();}
+
+    @PostMapping("/generate")
+    public ResponseEntity<User> generateQRCode(@RequestParam String name, @RequestParam String email)
+            throws WriterException, IOException {
+        User user = userService.createUser(name, email);
+        return ResponseEntity.ok(user);
+    }
+
+    // Get QR Code API
+    @GetMapping("/{id}/qrcode")
+    public ResponseEntity<byte[]> getQRCode(@PathVariable Long id) {
+        Optional<User> user = userService.getUser(id);
+        if (user.isPresent() && user.get().getQrCode() != null) {
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.IMAGE_PNG);
+            return new ResponseEntity<>(user.get().getQrCode(), headers, HttpStatus.OK);
+        }
+        return ResponseEntity.notFound().build();
+    }
 }
