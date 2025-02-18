@@ -15,7 +15,10 @@ import java.util.Date;
 @Builder
 public class ProjectListResponseDto {
 
+    private Long projectId;
+  
     private Long id;
+  
     @JsonFormat(pattern="yyyy-MM-dd")
     private Date createAt;
 
@@ -24,5 +27,5 @@ public class ProjectListResponseDto {
 
     private String projectName;
 
-    private String description;
+    private String projectDescription;
 }

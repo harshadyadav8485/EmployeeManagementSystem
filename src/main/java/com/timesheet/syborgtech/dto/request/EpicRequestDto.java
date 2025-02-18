@@ -15,4 +15,7 @@ public class EpicRequestDto {
 
     @NotBlank(message = "name is required")
     private String name;
+
+    @NotBlank(message = "ProjectId is required")
+    private Long projectId;
 }

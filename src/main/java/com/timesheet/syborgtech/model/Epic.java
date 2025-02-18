@@ -43,4 +43,8 @@ public class Epic {
     @OneToMany(mappedBy = "epic")
     private List<Task> task;
 
+    @ManyToOne
+    @JoinColumn(name = "project_id", nullable = false)
+    private Projects projects;
+
 }

@@ -4,10 +4,7 @@ package com.timesheet.syborgtech.service;
 import com.timesheet.syborgtech.dto.request.AssignProjectDto;
 import com.timesheet.syborgtech.dto.request.UserLoginRequestDto;
 import com.timesheet.syborgtech.dto.request.UserRegistrationRequest;
-import com.timesheet.syborgtech.dto.response.Response;
-import com.timesheet.syborgtech.dto.response.UserListResponseDto;
-import com.timesheet.syborgtech.dto.response.UserResponseDto;
-import com.timesheet.syborgtech.dto.response.UserLoginResponse;
+import com.timesheet.syborgtech.dto.response.*;
 import com.timesheet.syborgtech.dtoCommon.DataResponse;
 import com.timesheet.syborgtech.exceptions.*;
 import com.timesheet.syborgtech.model.Projects;
@@ -18,6 +15,7 @@ import com.timesheet.syborgtech.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.apache.poi.sl.draw.geom.GuideIf;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -117,6 +115,29 @@ public class UserService {
 
         userPage.forEach(user ->{
             UserListResponseDto userResponseDto = new UserListResponseDto();
+            List<RoleListResponseDto> roleList = new ArrayList<>();
+            List<ProjectListResponseDto> projectList = new ArrayList<>();
+
+            user.getRoles().forEach(r ->{
+                RoleListResponseDto role = new RoleListResponseDto();
+                role.setRoleId(r.getId());
+                role.setRoleName(r.getRoleName());
+                role.setDescription(r.getDescription());
+                role.setStatus(r.getStatus());
+                roleList.add(role);
+            });
+
+            user.getProjects().forEach(p -> {
+                ProjectListResponseDto project = new ProjectListResponseDto();
+
+                project.setProjectId(p.getId());
+                project.setProjectName(p.getProjectName());
+                project.setProjectDescription(p.getDescription());
+                project.setCreateAt(p.getCreateAt());
+                project.setUpdatedAt(p.getUpdatedAt());
+                projectList.add(project);
+            });
+
             userResponseDto.setUserId(user.getId());
             userResponseDto.setUserName(user.getUserName());
             userResponseDto.setFirstName(user.getFirstName());
@@ -129,11 +150,9 @@ public class UserService {
             userResponseDto.setStatus(user.getStatus());
             userResponseDto.setDateOfJoining(user.getDateOfJoining());
             userResponseDto.setDateOfResign(user.getDateOfResign());
-            userResponseDto.setRoles(user.getRoles());
-            userResponseDto.setTaskList(user.getTaskList());
-            userResponseDto.setSubtaskList(user.getSubtaskList());
-            userResponseDto.setComments(user.getComments());
-            userResponseDto.setProjects(user.getProjects());
+            userResponseDto.setRoles(roleList);
+            userResponseDto.setProjects(projectList);
+
             userListResponseDto.add(userResponseDto);
         });
 
@@ -194,6 +213,15 @@ public class UserService {
             MatrixToImageWriter.writeToStream(bitMatrix, "PNG", outputStream);
             return outputStream.toByteArray();
         }
+    }
+
+    public DataResponse getWithPayload(AssignProjectDto assignProjectDto) {
+
+        Optional<User> user = userRepository.findById(assignProjectDto.getUserId());
+
+        System.out.println("User Name :-" + user.get().getUserName());
+
+        return null;
     }
 }
 
