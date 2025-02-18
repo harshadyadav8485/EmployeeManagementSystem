@@ -130,4 +130,26 @@ public class SearchTerm {
         }
         return null;
     }
+
+    public static Specification<Task> containsTask(String searchTerm, Long taskId) {
+
+        boolean hasSearchTerm = StringUtils.hasLength(searchTerm);
+        String finalSearchTerm = hasSearchTerm && !searchTerm.contains("%")
+                ? "%" + searchTerm.toLowerCase() + "%"
+                : searchTerm;
+
+        if(hasSearchTerm) {
+            return  (root, query, criteriaBuilder) ->
+                    criteriaBuilder.or(
+                            criteriaBuilder.like(criteriaBuilder.lower(root.get("name")), finalSearchTerm),
+                            criteriaBuilder.like(criteriaBuilder.lower(root.get("description")), finalSearchTerm)
+                    );
+        }
+        if (Objects.nonNull(taskId)) {
+            return (root, query, criteriaBuilder) ->
+                    criteriaBuilder.equal(root.get("taskId"), taskId);
+        }
+        return null;
+    }
+
 }

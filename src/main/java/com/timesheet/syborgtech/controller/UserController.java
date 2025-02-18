@@ -62,5 +62,17 @@ public class UserController {
               .statusCode("ORD-0001")         
               .statusMessage("Userlogin Successfully")
               .build())        
-      .data(userService.loginUser(userLoginRequestDto)).build();}
+      .data(userService.loginUser(userLoginRequestDto)).build();
+    }
+
+    @GetMapping("/v1/getWithPayload")
+    public SyborgtechResponse getWithPayload(@RequestBody AssignProjectDto assignProjectDto) throws IOException {
+        return SyborgtechResponse.builder()
+                .status(ApiStatus.builder()
+                        .status("SUCCESS")
+                        .statusCode("ORD-0001")
+                        .statusMessage("User and projects Successfully")
+                        .build())
+                .data(userService.getWithPayload(assignProjectDto)).build();
+    }
 }

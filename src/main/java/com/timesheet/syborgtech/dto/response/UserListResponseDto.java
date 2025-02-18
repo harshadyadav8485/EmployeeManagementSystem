@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -27,9 +28,9 @@ public class UserListResponseDto {
     private User.Status status;
     private Date dateOfJoining;
     private Date dateOfResign;
-    private Set<Role> roles;
+    private List<RoleListResponseDto> roles;
     private List<Task> taskList;
     private List<Subtask> subtaskList;
     private List<Comment> comments;
-    private List<Projects> projects;
+    private List<ProjectListResponseDto> projects;
 }

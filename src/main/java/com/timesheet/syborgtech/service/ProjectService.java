@@ -69,11 +69,11 @@ public class ProjectService {
 
         List<ProjectListResponseDto> projectResponseDtoList = projects.stream()
                 .map(project -> ProjectListResponseDto.builder()
-                        .id(project.getId())
+                        .projectId(project.getId())
                         .createAt(project.getCreateAt())
                         .updatedAt(project.getUpdatedAt())
                         .projectName(project.getProjectName())
-                        .description(project.getDescription())
+                        .projectDescription(project.getDescription())
                         .build())
                 .toList();
 
