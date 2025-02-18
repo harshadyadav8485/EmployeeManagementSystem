@@ -20,6 +20,8 @@ public interface ProjectRepository extends JpaRepository<Projects, Long> {
     Page<Projects> findAll(Specification<Projects> containsProject, Pageable page);
 
     Page<Projects> findAllById(Long projectId,Pageable pageable);
-
     Page<Projects> findAll(Pageable pageable);
+
+    Page<Projects> findByUsersId(Long userId, Pageable pageable);
+
 }

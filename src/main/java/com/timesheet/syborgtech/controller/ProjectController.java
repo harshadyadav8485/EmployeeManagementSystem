@@ -12,6 +12,7 @@ import java.io.IOException;
 
 @RestController
 @RequestMapping("/project")
+@CrossOrigin(origins = "*", allowedHeaders = "*") // Allow all origins
 public class ProjectController {
 
     @Autowired
@@ -37,13 +38,14 @@ public class ProjectController {
             @RequestParam(required = false, name = "searchTerm") String searchTerm,
             @RequestParam(required = false, name = "pageNo", defaultValue = "1") Integer pageNo,
             @RequestParam(required = false, name = "recordsPerPage", defaultValue = "1000") Integer recordsPerPage,
-            @RequestParam(name = "project_id",required = false)Long projectId) throws IOException {
+            @RequestParam(name = "project_id",required = false)Long projectId,
+            @RequestParam(name = "userId",required = false)Long userId) throws IOException {
         return SyborgtechResponse.builder()
                 .status(ApiStatus.builder()
                         .status("SUCCESS")
                         .statusCode("ORD-0001")
                         .statusMessage("Project Fetched Successfully")
                         .build())
-                .data(projectService.getProjects(searchTerm,pageNo,recordsPerPage,projectId)).build();
+                .data(projectService.getProjects(searchTerm,pageNo,recordsPerPage,projectId,userId)).build();
     }
 }

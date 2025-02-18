@@ -54,7 +54,7 @@ public class SubTaskService {
             throw new TaskNotFoundException("Task not found with ID: " + subTaskRequestDto.getTaskId());
         }
         Subtask subtask = new Subtask();
-        subtask.setName(subTaskRequestDto.getName());
+        subtask.setName(subTaskRequestDto.getName()!= null ? subTaskRequestDto.getName():null);
         subtask.setStatus(subTaskRequestDto.getStatus());
         subtask.setTask(task.get());
         subtask.setUser(user.get());
