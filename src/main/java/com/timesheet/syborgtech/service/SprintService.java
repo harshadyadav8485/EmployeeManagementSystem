@@ -19,11 +19,16 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
+
+import static com.timesheet.syborgtech.searchTerm.SearchTerm.containsUser;
 
 @Service
 public class SprintService {
@@ -59,14 +64,10 @@ public class SprintService {
         return Response.builder().message("Sprint Created Successfully").build();
     }
     public SprintResponse fetchSprints(String searchTerm, Integer pageNo, Integer recordsPerPage, Long sprintId) {
-        Pageable pageable = PageRequest.of(pageNo - 1, recordsPerPage, Sort.by(Sort.Direction.ASC, "updatedAt"));
+        Pageable page = PageRequest.of(pageNo - 1, recordsPerPage, Sort.by(Sort.Direction.ASC, "updatedAt"));
 
-        Page<Sprint> sprints=null;
-        if(sprintId!=null){
-            sprints=sprintRepository.findAllById(sprintId,pageable);
-        }else{
-            sprints=sprintRepository.findAll(pageable);
-        }
+        Page<Sprint> sprints = sprintRepository.findAll(containsSprint(searchTerm, sprintId), page);
+
         List<SprintResponseList> sprintResponseListList=new ArrayList<>();
 
         sprints.forEach((sprint)->{
@@ -95,6 +96,7 @@ public class SprintService {
             responseList.setName(sprint.getName());
             responseList.setStartDate(sprint.getStartDate());
             responseList.setEndDate(sprint.getEndDate());
+            responseList.setProjectId(sprint.getProjects().getId());
             responseList.setProjectName(sprint.getProjects().getProjectName());
             responseList.setSprintStatus(sprint.getSprintStatus());
             responseList.setTaskList(taskListResponseDto);
@@ -108,5 +110,30 @@ public class SprintService {
         sprintResponse.setTotalElements(sprints.getTotalElements());
         sprintResponse.setSprintResponseListList(sprintResponseListList);
         return sprintResponse;
+    }
+
+    public static Specification<Sprint> containsSprint(String searchTerm, Long sprintId) {
+
+        boolean hasSearchTerm = StringUtils.hasLength(searchTerm);
+        String finalSearchTerm = hasSearchTerm && !searchTerm.contains("%")
+                ? "%" + searchTerm.toLowerCase() + "%"
+                : searchTerm;
+
+        if (Objects.nonNull(sprintId)) {
+            return (root, query, criteriaBuilder) ->
+                    criteriaBuilder.equal(root.get("id"), sprintId);
+        }
+        if (hasSearchTerm) {
+
+            Specification<Sprint> searchSpec=null;
+
+            return  ((root, query, criteriaBuilder) -> criteriaBuilder.and(criteriaBuilder.or(
+                    criteriaBuilder.like(criteriaBuilder.lower(root.get("name")), finalSearchTerm),
+                    criteriaBuilder.like(criteriaBuilder.lower(root.get("projects").get("projectName")), finalSearchTerm),
+                    criteriaBuilder.like(criteriaBuilder.lower(root.get("projects").get("description")), finalSearchTerm)
+            )));
+
+        }
+        return null;
     }
 }
