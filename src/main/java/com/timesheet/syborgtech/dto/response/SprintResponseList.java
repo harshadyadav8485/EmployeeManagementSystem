@@ -22,6 +22,7 @@ public class SprintResponseList {
     @JsonFormat(pattern="yyyy-MM-dd")
     private Date endDate;
     private Sprint.SprintStatus sprintStatus;
+    private Long projectId;
     private String projectName;
     private List<TaskListResponseDto> taskList;
 }
