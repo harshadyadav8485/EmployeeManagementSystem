@@ -43,9 +43,9 @@ public class TaskService {
             throw new ProjectNotFoundException("Project Not Found Exception");
         }
         Optional<User> user = userRepository.findById(taskRequestDto.getUserId());
-        if (!user.isPresent()) {
-            throw new UserNotFoundException("User Not Found Exception");
-        }
+//        if (!user.isPresent()) {
+//            throw new UserNotFoundException("User Not Found Exception");
+//        }
         Optional<Sprint> sprint = sprintRepository.findById(taskRequestDto.getSprintId());
         if (!sprint.isPresent()) {
             throw new SprintNotFoundException("Sprint Not Found Exception");
@@ -83,9 +83,9 @@ public class TaskService {
             taskResponseDto.setCreateAt(task.getCreateAt());
             taskResponseDto.setUpdatedAt(task.getUpdatedAt());
 //            taskResponseDto.setComments(task.getComments());
-            taskResponseDto.setEpic(task.getEpic());
+            taskResponseDto.setEpic(task.getEpic().getName());
             taskResponseDto.setTaskType(task.getTaskType());
-            taskResponseDto.setUser(task.getUser());
+            //taskResponseDto.setUser(task.getUser());
             taskResponseDto.setReporterId(task.getReporterId());
             taskListResponseDto.add(taskResponseDto);
 

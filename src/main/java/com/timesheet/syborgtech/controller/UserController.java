@@ -27,11 +27,13 @@ import java.util.Optional;
 @RequestMapping("/user")
 public class UserController {
     private final UserService userService;
+
     public UserController(UserService userService) {
         this.userService = userService;
     }
+
     @PostMapping("/v1")
-    public SyborgtechResponse createUser(@RequestBody UserRegistrationRequest userRegistrationRequest) throws IOException{
+    public SyborgtechResponse createUser(@RequestBody UserRegistrationRequest userRegistrationRequest) throws IOException {
         return SyborgtechResponse.builder()
                 .status(ApiStatus.builder()
                         .status("SUCCESS")
@@ -42,7 +44,7 @@ public class UserController {
     }
 
     @PostMapping("/v1/assignProject")
-    public SyborgtechResponse assignProjects(@RequestBody AssignProjectDto assignProjectDto) throws IOException{
+    public SyborgtechResponse assignProjects(@RequestBody AssignProjectDto assignProjectDto) throws IOException {
         return SyborgtechResponse.builder()
                 .status(ApiStatus.builder()
                         .status("SUCCESS")
@@ -57,24 +59,25 @@ public class UserController {
             @RequestParam(required = false, name = "searchTerm") String searchTerm,
             @RequestParam(required = false, name = "pageNo", defaultValue = "1") Integer pageNo,
             @RequestParam(required = false, name = "recordsPerPage", defaultValue = "1000") Integer recordsPerPage,
-            @RequestParam(name = "user_id",required = false)Long userId) throws IOException {
+            @RequestParam(name = "user_id", required = false) Long userId) throws IOException {
         return SyborgtechResponse.builder()
                 .status(ApiStatus.builder()
                         .status("SUCCESS")
                         .statusCode("ORD-0001")
                         .statusMessage("User Fetched Successfully")
                         .build())
-                .data(userService.getUsers(searchTerm,pageNo,recordsPerPage,userId)).build();
+                .data(userService.getUsers(searchTerm, pageNo, recordsPerPage, userId)).build();
     }
-  
-  @PostMapping("/login")public SyborgtechResponse loginUser(@RequestBody UserLoginRequestDto userLoginRequestDto) throws IOException{  
-    return SyborgtechResponse.builder()        
-      .status(ApiStatus.builder()          
-              .status("SUCCESS")               
-              .statusCode("ORD-0001")         
-              .statusMessage("Userlogin Successfully")
-              .build())        
-      .data(userService.loginUser(userLoginRequestDto)).build();
+
+    @PostMapping("/login")
+    public SyborgtechResponse loginUser(@RequestBody UserLoginRequestDto userLoginRequestDto) throws IOException {
+        return SyborgtechResponse.builder()
+                .status(ApiStatus.builder()
+                        .status("SUCCESS")
+                        .statusCode("ORD-0001")
+                        .statusMessage("Userlogin Successfully")
+                        .build())
+                .data(userService.loginUser(userLoginRequestDto)).build();
     }
 
     @GetMapping("/v1/getWithPayload")
@@ -106,3 +109,4 @@ public class UserController {
         }
         return ResponseEntity.notFound().build();
     }
+}

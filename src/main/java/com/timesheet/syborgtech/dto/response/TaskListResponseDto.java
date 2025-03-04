@@ -12,7 +12,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TaskListResponseDto {
-
     private Long taskId;
     private Sprint sprint;
     private String taskName;
@@ -21,10 +20,10 @@ public class TaskListResponseDto {
     private Task.Priority priority;
     private Date createAt;
     private Date updatedAt;
-    private List<SubTaskListResponseDto> subtaskList;
-    private List<CommentListResponseDto> comments;
-    private Epic epic;
+    //private List<SubTaskListResponseDto> subtaskList;
+   // private List<CommentListResponseDto> comments;
+    private String epic;
     private Task.TaskType taskType;
-    private User user;
+    //private User user;
     private Long reporterId;
 }

@@ -34,7 +34,7 @@ public class Projects {
     @Column(name = "project_name", nullable = false, unique = true)
     private String projectName;
 
-    @Column(name = "description")
+    @Column(name = "description", columnDefinition = "TEXT")
     private String description;
 
     @OneToMany(mappedBy = "projects",fetch = FetchType.LAZY,orphanRemoval = true)

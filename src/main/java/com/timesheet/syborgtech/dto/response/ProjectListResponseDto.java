@@ -16,16 +16,11 @@ import java.util.Date;
 public class ProjectListResponseDto {
 
     private Long projectId;
-  
     private Long id;
-  
     @JsonFormat(pattern="yyyy-MM-dd")
     private Date createAt;
-
     @JsonFormat(pattern="yyyy-MM-dd")
     private Date updatedAt;
-
     private String projectName;
-
     private String projectDescription;
 }

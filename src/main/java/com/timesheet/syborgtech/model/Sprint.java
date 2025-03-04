@@ -58,6 +58,6 @@ public class Sprint {
     @OneToMany(mappedBy = "sprint",fetch = FetchType.LAZY)
     private List<Task> taskList;
      public enum SprintStatus{
-         ACTIVE,COMPLETED
+         ACTIVE,COMPLETED,INPROGRESS
      }
 }
