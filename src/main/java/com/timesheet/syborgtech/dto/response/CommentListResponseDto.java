@@ -20,8 +20,10 @@ import java.util.Date;
 public class CommentListResponseDto {
 
     private Long id;
-    private Task task;
     private String commentText;
+    private Long taskId;
+    private String taskName;
+    private Long userId;
     private Date createAt;
     private Date updatedAt;
 }
