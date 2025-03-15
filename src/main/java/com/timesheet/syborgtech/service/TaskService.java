@@ -67,7 +67,7 @@ public class TaskService {
 
     public DataResponse getTasks(String searchTerm, Integer pageNo, Integer recordsPerPage, Long taskId) {
 
-        Pageable page = PageRequest.of(pageNo - 1, recordsPerPage, Sort.Direction.DESC, "id");
+        Pageable page = PageRequest.of(pageNo - 1, recordsPerPage, Sort.Direction.DESC, "taskId");
 
         Page<Task> taskPage = taskRepository.findAll(containsTask(searchTerm, taskId), page);
         List<TaskListResponseDto> taskListResponseDto = new ArrayList<>();
@@ -75,7 +75,7 @@ public class TaskService {
         taskPage.forEach(task ->{
             TaskListResponseDto taskResponseDto = new TaskListResponseDto();
             taskResponseDto.setTaskId(task.getTaskId());
-            taskResponseDto.setSprint(task.getSprint());
+            //taskResponseDto.setSprint(task.getSprint());
             taskResponseDto.setTaskName(task.getName());
             taskResponseDto.setDescription(task.getDescription());
             taskResponseDto.setStatus(task.getStatus());
@@ -98,5 +98,19 @@ public class TaskService {
         taskResponseDto.setCurrentPage(taskPage.getNumber()+1);
 
         return taskResponseDto;
+    }
+
+    public Response updateTask(TaskRequestDto taskRequestDto) {
+
+        Optional<Task> task=taskRepository.findById(taskRequestDto.getTaskId());
+        if(task.isPresent()){
+            if(taskRequestDto.getStatus()!=null) {
+                task.get().setStatus(taskRequestDto.getStatus());
+            }else if(taskRequestDto.getPriority()!=null){
+                task.get().setPriority(taskRequestDto.getPriority());
+            }
+            taskRepository.save(task.get());
+        }
+        return Response.builder().message("Task Updated Successfully").build();
     }
 }

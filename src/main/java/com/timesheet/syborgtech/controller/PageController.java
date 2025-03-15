@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 
 @RestController
-    @RequestMapping("/page")
+@RequestMapping("/page")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class PageController {
 @Autowired
 private PageService pageService;

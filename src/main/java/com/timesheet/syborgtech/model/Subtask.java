@@ -74,6 +74,7 @@ public class Subtask {
     public enum SubtaskStatus {
         TO_DO,
         IN_PROGRESS,
+        COMPLETED,
         DONE
     }
 }

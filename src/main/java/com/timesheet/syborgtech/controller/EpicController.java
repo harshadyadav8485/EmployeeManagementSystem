@@ -12,6 +12,7 @@ import java.io.IOException;
 
 @RestController
 @RequestMapping("/epic")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class EpicController {
 
     @Autowired

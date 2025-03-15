@@ -12,6 +12,7 @@ import java.io.IOException;
 
 @RestController
 @RequestMapping("/comment")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class CommentController {
     @Autowired
     private CommentService commentService;
