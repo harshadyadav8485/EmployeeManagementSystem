@@ -106,8 +106,12 @@ public class TaskService {
         if(task.isPresent()){
             if(taskRequestDto.getStatus()!=null) {
                 task.get().setStatus(taskRequestDto.getStatus());
-            }else if(taskRequestDto.getPriority()!=null){
+            }if(taskRequestDto.getPriority()!=null){
                 task.get().setPriority(taskRequestDto.getPriority());
+            }if(taskRequestDto.getEpicId()!=null){
+                Optional<Epic> epic=epicRepository.findById(taskRequestDto.getEpicId());
+                task.get().setEpic(epic.get());
+                epicRepository.save(epic.get());
             }
             taskRepository.save(task.get());
         }
