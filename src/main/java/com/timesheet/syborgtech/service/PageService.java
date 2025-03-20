@@ -6,6 +6,7 @@ import com.timesheet.syborgtech.dto.response.PageResponseDto;
 import com.timesheet.syborgtech.dto.response.Response;
 import com.timesheet.syborgtech.dtoCommon.DataResponse;
 import com.timesheet.syborgtech.exceptions.PageAlreadyExists;
+import com.timesheet.syborgtech.exceptions.PageNotFoundException;
 import com.timesheet.syborgtech.model.Page;
 import com.timesheet.syborgtech.repository.PageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,5 +64,21 @@ public class PageService {
         pageResponseDto.setCurrentPage(pageData.getNumber()+1);
 
         return pageResponseDto;
+    }
+
+    public DataResponse updatePage(PageRequestDto pageRequestDto) {
+
+        Page page = pageRepository.findById(pageRequestDto.getId())
+                .orElseThrow(() -> new PageNotFoundException("Epic not found with ID: " + pageRequestDto.getId()));
+
+        page.setName(pageRequestDto.getName());
+        Page updatedPage = pageRepository.save(page);
+
+        return Response.builder().message("Page Updated Successfully").build();
+    }
+
+    public DataResponse deletePageById(Long pageId) {
+
+        return Response.builder().message("Page Deleted Successfully").build();
     }
 }

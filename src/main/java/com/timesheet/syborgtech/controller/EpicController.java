@@ -43,4 +43,26 @@ public class EpicController {
                         .build())
                 .data(epicService.getEpics(searchTerm,pageNo,recordsPerPage,epicId)).build();
     }
+
+    @PutMapping("/v1")
+    public SyborgtechResponse updateEpic(@RequestBody EpicRequestDto epicRequestDto) throws IOException {
+        return SyborgtechResponse.builder()
+                .status(ApiStatus.builder()
+                        .status("SUCCESS")
+                        .statusCode("ORD-0001")
+                        .statusMessage("Comment Updated Successfully")
+                        .build())
+                .data(epicService.updateEpic(epicRequestDto)).build();
+    }
+
+    @DeleteMapping("/v1/{epicId}")
+    public SyborgtechResponse deleteEpicById(@PathVariable(name = "epicId") Long epicId) throws IOException {
+        return SyborgtechResponse.builder()
+                .status(ApiStatus.builder()
+                        .status("SUCCESS")
+                        .statusCode("ORD-0001")
+                        .statusMessage("Epic Deleted Successfully")
+                        .build())
+                .data(epicService.deleteEpicById(epicId)).build();
+    }
 }

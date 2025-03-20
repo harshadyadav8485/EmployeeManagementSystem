@@ -139,4 +139,28 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>
                 (SyborgtechResponse.builder().status(StatusConstants.PASSWORD_INVALID_EXCEPTION).build(),HttpStatus.NOT_FOUND);
     }
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(CommentNotFoundException.class)
+    public ResponseEntity<SyborgtechResponse> commentNotFoundException(CommentNotFoundException e) {
+        logger.error(e.getMessage());
+        return new ResponseEntity<>(
+                SyborgtechResponse.builder().status(StatusConstants.COMMENT_NOT_FOUND).build(), HttpStatus.NOT_FOUND);
+    }
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(EpicNotFoundException.class)
+    public ResponseEntity<SyborgtechResponse> epicNotFoundException(EpicNotFoundException e) {
+        logger.error(e.getMessage());
+        return new ResponseEntity<>(
+                SyborgtechResponse.builder().status(StatusConstants.EPIC_NOT_FOUND).build(), HttpStatus.NOT_FOUND);
+    }
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(PageNotFoundException.class)
+    public ResponseEntity<SyborgtechResponse> pageNotFoundException(PageNotFoundException e) {
+        logger.error(e.getMessage());
+        return new ResponseEntity<>(
+                SyborgtechResponse.builder().status(StatusConstants.PAGE_NOT_FOUND).build(), HttpStatus.NOT_FOUND);
+    }
 }

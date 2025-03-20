@@ -7,9 +7,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Set;
 
 @Repository
 public interface SubtaskRepository extends JpaRepository<Subtask,Long> {
@@ -24,4 +27,6 @@ public interface SubtaskRepository extends JpaRepository<Subtask,Long> {
     List<Subtask> findAllById(Long subTaskId,Sort sort);
     List<Subtask> findAllByTask_TaskId(Long taskId,Sort sort);
 
+    @Query("SELECT st FROM Subtask st WHERE st.task IN (:tasks)")
+    List<Subtask> findByTask(@Param("tasks")List<Task> tasks);
 }
