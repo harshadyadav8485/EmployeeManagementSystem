@@ -21,6 +21,9 @@ import org.springframework.util.StringUtils;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class EpicService {
@@ -53,10 +56,14 @@ public class EpicService {
         return Response.builder().message("Epic created successfully").build();
     }
 
-    public EpicResponseDto getEpics(String searchTerm, Integer pageNo, Integer recordsPerPage, Long epicId) {
+    public EpicResponseDto getEpics(String searchTerm, Integer pageNo, Integer recordsPerPage, Long epicId, Long projectId) {
         Pageable pageable = PageRequest.of(pageNo - 1, recordsPerPage, Sort.by(Sort.Direction.DESC, "id"));
-        Page<Epic> epicList = epicRepository.findAll(containsEpic(searchTerm, epicId), pageable);
-
+        Page<Epic> epicList =null;
+        if(projectId!=null){
+            epicList=epicRepository.findByProjectsId(projectId,pageable);
+        }else {
+            epicList= epicRepository.findAll(containsEpic(searchTerm, epicId), pageable);
+        }
         List<EpicResponseDtoList> epicResponseDtoListList = epicList.stream()
                 .map(epic -> {
                     Projects project = epic.getProjects();

@@ -12,6 +12,7 @@ import java.io.IOException;
 
 @RestController
 @RequestMapping("/task")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class TaskController {
 
     @Autowired
@@ -41,4 +42,16 @@ public class TaskController {
                         .build())
                 .data(taskService.getTasks(searchTerm,pageNo,recordsPerPage,taskId)).build();
     }
+
+    @PutMapping("/v1")
+    public SyborgtechResponse updateTask(@RequestBody TaskRequestDto taskRequestDto) throws IOException {
+        return SyborgtechResponse.builder()
+                .status(ApiStatus.builder()
+                        .status("SUCCESS")
+                        .statusCode("Sprint-001")
+                        .statusMessage("Task Created Successfully")
+                        .build())
+                .data(taskService.updateTask(taskRequestDto)).build();
+    }
+
 }

@@ -84,6 +84,7 @@ public class SprintService {
                 taskResponseDto.setCreateAt(task.getCreateAt());
                 taskResponseDto.setUpdatedAt(task.getUpdatedAt());
                 taskResponseDto.setEpic(task.getEpic().getName());
+                taskResponseDto.setEpicId(task.getEpic().getId());
                 taskResponseDto.setTaskType(task.getTaskType());
                 //taskResponseDto.setUser(task.getUser());
                 taskResponseDto.setReporterId(task.getReporterId());

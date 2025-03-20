@@ -12,6 +12,7 @@ import java.io.IOException;
 
 @RestController
 @RequestMapping("/sprint")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class SprintController {
 
     @Autowired
