@@ -40,4 +40,27 @@ private PageService pageService;
                         .build())
                 .data(pageService.getPages(searchTerm,pageNo,recordsPerPage,pageId)).build();
     }
+
+    @PutMapping("/v1")
+    public SyborgtechResponse updatePage(@RequestBody PageRequestDto pageRequestDto) throws IOException {
+        return SyborgtechResponse.builder()
+                .status(ApiStatus.builder()
+                        .status("SUCCESS")
+                        .statusCode("ORD-0001")
+                        .statusMessage("Page Updated Successfully")
+                        .build())
+                .data(pageService.updatePage(pageRequestDto)).build();
+    }
+
+    @DeleteMapping("/v1/{pageId}")
+    public SyborgtechResponse deletePageById(@PathVariable(name = "pageId") Long pageId) throws IOException {
+        return SyborgtechResponse.builder()
+                .status(ApiStatus.builder()
+                        .status("SUCCESS")
+                        .statusCode("ORD-0001")
+                        .statusMessage("Page Deleted Successfully")
+                        .build())
+                .data(pageService.deletePageById(pageId)).build();
+    }
+
 }

@@ -39,8 +39,27 @@ public class CommentController {
                         .statusMessage("Comment Fetch Successfully")
                         .build())
                 .data(commentService.getComments(searchTerm,pageNo,recordsPerPage,commentId)).build();
-
-
     }
 
+    @PutMapping("/v1")
+    public SyborgtechResponse updateComment(@RequestBody CommentRequestDto commentRequestDto) throws IOException {
+        return SyborgtechResponse.builder()
+                .status(ApiStatus.builder()
+                        .status("SUCCESS")
+                        .statusCode("ORD-0001")
+                        .statusMessage("Comment Updated Successfully")
+                        .build())
+                .data(commentService.updateComment(commentRequestDto)).build();
+    }
+
+    @DeleteMapping("/v1/{commentId}")
+    public SyborgtechResponse deleteCommentById(@PathVariable(name = "commentId") Long commentId) throws IOException {
+        return SyborgtechResponse.builder()
+                .status(ApiStatus.builder()
+                        .status("SUCCESS")
+                        .statusCode("ORD-0001")
+                        .statusMessage("Comment Deleted Successfully")
+                        .build())
+                .data(commentService.deleteCommentById(commentId)).build();
+    }
 }
