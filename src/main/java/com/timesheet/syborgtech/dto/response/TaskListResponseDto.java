@@ -23,6 +23,7 @@ public class TaskListResponseDto {
     //private List<SubTaskListResponseDto> subtaskList;
    // private List<CommentListResponseDto> comments;
     private String epic;
+    private Long epicId;
     private Task.TaskType taskType;
     //private User user;
     private Long reporterId;

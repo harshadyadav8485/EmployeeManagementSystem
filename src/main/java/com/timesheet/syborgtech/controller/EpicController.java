@@ -34,13 +34,16 @@ public class EpicController {
             @RequestParam(required = false, name = "searchTerm") String searchTerm,
             @RequestParam(required = false, name = "pageNo", defaultValue = "1") Integer pageNo,
             @RequestParam(required = false, name = "recordsPerPage", defaultValue = "1000") Integer recordsPerPage,
-            @RequestParam(name = "epicId",required = false)Long epicId) throws IOException {
+            @RequestParam(name = "epicId",required = false)Long epicId,
+            @RequestParam(name = "projectId",required = false)Long projectId
+
+            ) throws IOException {
         return SyborgtechResponse.builder()
                 .status(ApiStatus.builder()
                         .status("SUCCESS")
                         .statusCode("ORD-0001")
                         .statusMessage("Epics Fetched Successfully")
                         .build())
-                .data(epicService.getEpics(searchTerm,pageNo,recordsPerPage,epicId)).build();
+                .data(epicService.getEpics(searchTerm,pageNo,recordsPerPage,epicId,projectId)).build();
     }
 }

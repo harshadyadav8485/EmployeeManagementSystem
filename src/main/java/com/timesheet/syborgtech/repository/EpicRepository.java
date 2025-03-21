@@ -14,4 +14,6 @@ public interface EpicRepository extends JpaRepository<Epic, Long> {
 
     boolean existsByName(String name);
     Page<Epic> findAll(Specification<Epic> containsPage, Pageable page);
+
+    Page<Epic> findByProjectsId(Long projectId,Pageable page);
 }

@@ -112,6 +112,8 @@ public class TaskService {
                 Optional<Epic> epic=epicRepository.findById(taskRequestDto.getEpicId());
                 task.get().setEpic(epic.get());
                 epicRepository.save(epic.get());
+            }if(taskRequestDto.getName()!=null){
+                task.get().setName(taskRequestDto.getName());
             }
             taskRepository.save(task.get());
         }

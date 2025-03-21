@@ -21,7 +21,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/subtask")
-
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class SubTaskController {
 
     @Autowired
