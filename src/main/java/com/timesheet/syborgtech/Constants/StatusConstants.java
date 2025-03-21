@@ -93,4 +93,22 @@ public class StatusConstants {
             .statusCode("PASSWORD-001")
             .status("PASSWORD INVALID EXCEPTION")
             .build();
+
+    public static final ApiStatus COMMENT_NOT_FOUND = ApiStatus.builder()
+            .statusMessage("COMMENT NOT FOUND!")
+            .statusCode("COMMENT-001")
+            .status("COMMENT NOT FOUND")
+            .build();
+
+    public static final ApiStatus EPIC_NOT_FOUND = ApiStatus.builder()
+            .statusMessage("EPIC NOT FOUND!")
+            .statusCode("EPIC-001")
+            .status("EPIC NOT FOUND")
+            .build();
+
+    public static final ApiStatus PAGE_NOT_FOUND = ApiStatus.builder()
+            .statusMessage("PAGE NOT FOUND!")
+            .statusCode("PAGE-001")
+            .status("PAGE NOT FOUND")
+            .build();
 }

@@ -5,11 +5,11 @@ import com.timesheet.syborgtech.dto.response.EpicResponseDto;
 import com.timesheet.syborgtech.dto.response.EpicResponseDtoList;
 import com.timesheet.syborgtech.dto.response.ProjectListResponseDto;
 import com.timesheet.syborgtech.dto.response.Response;
+import com.timesheet.syborgtech.dtoCommon.DataResponse;
 import com.timesheet.syborgtech.exceptions.EpicAlreadyExists;
-import com.timesheet.syborgtech.model.Epic;
-import com.timesheet.syborgtech.model.Projects;
-import com.timesheet.syborgtech.repository.EpicRepository;
-import com.timesheet.syborgtech.repository.ProjectRepository;
+import com.timesheet.syborgtech.exceptions.EpicNotFoundException;
+import com.timesheet.syborgtech.model.*;
+import com.timesheet.syborgtech.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -19,6 +19,8 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.*;
+import java.util.stream.Collectors;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -31,6 +33,15 @@ public class EpicService {
 
     @Autowired
     private ProjectRepository projectRepository;
+
+    @Autowired
+    private TaskRepository taskRepository;
+
+    @Autowired
+    private SubtaskRepository subTaskRepository;
+
+    @Autowired
+    private CommentRepository commentRepository;
 
     public Response createEpic(EpicRequestDto epicRequestDto) {
         boolean epicIsPrsent = epicRepository.existsByName(epicRequestDto.getName().trim());
@@ -101,5 +112,36 @@ public class EpicService {
 
         }
         return null;
+    }
+
+    public DataResponse updateEpic(EpicRequestDto epicRequestDto) {
+        Epic epic = epicRepository.findById(epicRequestDto.getId())
+                .orElseThrow(() -> new EpicNotFoundException("Epic not found with ID: " + epicRequestDto.getId()));
+
+        epic.setName(epicRequestDto.getName());
+        Epic updatedEpic = epicRepository.save(epic);
+
+        return Response.builder().message("Epic Updated Successfully").build();
+    }
+
+    public DataResponse deleteEpicById(Long epicId) {
+        Epic epic = epicRepository.findById(epicId)
+                .orElseThrow(() -> new EpicNotFoundException("Epic not found with ID: " + epicId));
+
+        List<Task> tasks = taskRepository.findByEpic(epic);
+        Set<Long> taskIds = tasks.stream().map(Task::getTaskId).collect(Collectors.toSet());
+
+        List<Subtask> subTasks = subTaskRepository.findByTask(tasks);
+        Set<Long> subTaskIds = subTasks.stream().map(Subtask::getId).collect(Collectors.toSet());
+
+        List<Comment> comments = commentRepository.findByTask(tasks);
+        Set<Long> commentIds = comments.stream().map(Comment::getId).collect(Collectors.toSet());
+
+        commentRepository.deleteAllById(commentIds);
+        subTaskRepository.deleteAllById(subTaskIds);
+        taskRepository.deleteAllById(taskIds);
+        epicRepository.deleteById(epic.getId());
+
+        return Response.builder().message("Epic Deleted Successfully").build();
     }
 }

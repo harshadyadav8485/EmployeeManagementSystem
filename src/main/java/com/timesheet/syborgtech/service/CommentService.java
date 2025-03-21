@@ -5,6 +5,7 @@ import com.timesheet.syborgtech.dto.response.CommentListResponseDto;
 import com.timesheet.syborgtech.dto.response.CommentResponseDto;
 import com.timesheet.syborgtech.dto.response.Response;
 import com.timesheet.syborgtech.dtoCommon.DataResponse;
+import com.timesheet.syborgtech.exceptions.CommentNotFoundException;
 import com.timesheet.syborgtech.exceptions.TaskNotFoundException;
 import com.timesheet.syborgtech.exceptions.UserNotFoundException;
 import com.timesheet.syborgtech.model.Comment;
@@ -56,7 +57,7 @@ public class CommentService {
 
     }
 
-    public DataResponse getComments(String searchTerm, Integer pageNo, Integer recordsPerPage, Long commentId) {
+    public CommentResponseDto getComments(String searchTerm, Integer pageNo, Integer recordsPerPage, Long commentId) {
         Pageable page = PageRequest.of(pageNo - 1, recordsPerPage, Sort.Direction.DESC, "id");
 
         Page<Comment> commentPage = commentRepository.findAll(containsComment(searchTerm,commentId),page);
@@ -106,5 +107,25 @@ public class CommentService {
 
         }
         return null;
+    }
+
+    public DataResponse updateComment(CommentRequestDto commentRequestDto) {
+       Comment comment = commentRepository.findById(commentRequestDto.getId())
+               .orElseThrow(() -> new CommentNotFoundException("Comment not found with ID: " + commentRequestDto.getId()));
+
+        comment.setCommentText(commentRequestDto.getCommentText());
+        Comment updatedComment = commentRepository.save(comment);
+
+        return Response.builder().message("Role Updated Successfully").build();
+    }
+
+
+    public DataResponse deleteCommentById(Long commentId) {
+        Comment comment = commentRepository.findById(commentId)
+                .orElseThrow(() -> new CommentNotFoundException("Comment not found with ID: " + commentId));
+
+        commentRepository.deleteById(comment.getId());
+
+        return Response.builder().message("Comment Deleted Successfully").build();
     }
 }
